@@ -47,6 +47,13 @@
 			<artifactId>kotlin-stdlib</artifactId>
 			<version>${kotlin.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-reflect</artifactId>
+			<version>1.8.20</version>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
