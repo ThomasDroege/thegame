@@ -2,7 +2,7 @@
 
 Techstack:
 
-SpringBoot, Postgres, Thymeleaf
+SpringBoot, Postgres, Thymeleaf, HTML Canvas
 
 Business Package: enthält die Entitäten, welche die DB Struktur darstellt
 
