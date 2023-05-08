@@ -19,7 +19,7 @@ class UserRestController(private  val userService: UserService) {
     }
 
     @GetMapping("/getAll")
-    fun getAllUser(): List<User> {
+    fun getAllUsers(): List<User> {
         return userService.getAllUsers()
     }
 }
