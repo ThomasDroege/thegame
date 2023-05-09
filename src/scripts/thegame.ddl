@@ -32,7 +32,7 @@ CREATE TABLE thegame.data.villages (
 );
 
 INSERT INTO thegame.data.villages 
-values 
+VALUES 
 	(nextval('seq_village'), 1, 1, 1),
 	(nextval('seq_village'), 5, 10, 2);
 	
