@@ -1,33 +1,33 @@
 --- Users ---
-create sequence seq_user start with 1 increment by 1;
+CREATE sequence seq_user start with 1 increment BY 1;
 
 CREATE TABLE thegame.data.users (
     user_id int NOT NULL,
     first_name varchar(255) NOT NULL,
-    last_name varchar(255) not NULL,
+    last_name varchar(255) NOT NULL,
     PRIMARY KEY (user_id)
 );
 
 INSERT INTO thegame.data.users (user_id, first_name, last_name)
-values
+VALUES
 	(nextval('seq_user'), 'Thomas', 'Dröge'),
 	(nextval('seq_user'), 'Martin', 'Schreiber'),
 	(nextval('seq_user'), 'Max', 'Mustermann');
 	
 
 --- Villages ---
-create sequence seq_village start with 1 increment by 1;
+CREATE sequence seq_village start with 1 increment BY 1;
 
 
-create table thegame.data.villages (
-	village_id int not null,
-	x_coords int not null,
-	y_coords int not null,
+CREATE TABLE thegame.data.villages (
+	village_id int NOT NULL,
+	x_coords int NOT NULL,
+	y_coords int NOT NULL,
 	primary key (village_id),
 	user_id int references thegame.data.users
 );
 
-insert into thegame.data.villages 
+INSERT INTO thegame.data.villages 
 values 
 	(nextval('seq_village'), 1, 1, 1),
 	(nextval('seq_village'), 5, 10, 2);
@@ -35,14 +35,14 @@ values
 
 
 --- ResourceTypes ---
-create table thegame.data.resource_types (
-	resource_type_id int not null,
-	resource_name varchar(255) not null,
+CREATE TABLE thegame.data.resource_types (
+	resource_type_id int NOT NULL,
+	resource_name varchar(255) NOT NULL,
 	primary key (resource_type_id)
 );
 
-insert into thegame.data.resource_types
-values
+INSERT INTO thegame.data.resource_types
+VALUES
 	(1, 'Food'),
 	(2, 'Stone'),
 	(3, 'Wood'),
@@ -50,20 +50,20 @@ values
 
 
 --- Resources ---
-create sequence seq_resource start with 1 increment by 1;
+CREATE sequence seq_resource start with 1 increment BY 1;
 
 
-create table thegame.data.resources (
-	resource_id int not null,
+CREATE TABLE thegame.data.resources (
+	resource_id int NOT NULL,
 	village_id int references thegame.data.villages,
 	resource_type_id int references thegame.data.resource_types,
-	resource_total int not null,
-	resource_income int not null,
+	resource_total int NOT NULL,
+	resource_income int NOT NULL,
 	primary key (resource_id)
 );
 
-insert into thegame.data.resources 
-values 
+INSERT INTO thegame.data.resources 
+VALUES 
 	(nextval('seq_resource'), 1, 1, 1000, 20),
 	(nextval('seq_resource'), 1, 2, 200, 5),
 	(nextval('seq_resource'), 1, 3, 400, 20),
