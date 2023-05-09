@@ -1,5 +1,7 @@
 --- Users ---
-CREATE sequence seq_user start with 1 increment BY 1;
+CREATE SEQUENCE seq_user
+	START WITH 1 
+	INCREMENT BY 1;
 
 CREATE TABLE thegame.data.users (
     user_id int NOT NULL,
@@ -16,7 +18,9 @@ VALUES
 	
 
 --- Villages ---
-CREATE sequence seq_village start with 1 increment BY 1;
+CREATE SEQUENCE seq_village
+	START WITH 1
+	INCREMENT BY 1;
 
 
 CREATE TABLE thegame.data.villages (
@@ -50,7 +54,9 @@ VALUES
 
 
 --- Resources ---
-CREATE sequence seq_resource start with 1 increment BY 1;
+CREATE SEQUENCE seq_resource
+	START WITH 1
+	INCREMENT BY 1;
 
 
 CREATE TABLE thegame.data.resources (
