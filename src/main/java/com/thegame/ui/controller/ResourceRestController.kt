@@ -1,7 +1,7 @@
-package com.thegame.controller
+package com.thegame.ui.controller
 
-import com.thegame.model.Resource
-import com.thegame.service.ResourceService
+import com.thegame.business.model.Resource
+import com.thegame.business.service.ResourceService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController

@@ -1,7 +1,7 @@
-package com.thegame.service
+package com.thegame.business.service
 
-import com.thegame.model.Resource
-import com.thegame.repository.ResourceRepository
+import com.thegame.business.model.Resource
+import com.thegame.business.repository.ResourceRepository
 import org.springframework.stereotype.Service
 
 @Service

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>The Game</title>
-
+        <title>Village</title>
     </head>
     <body>
         <div class="village">
@@ -11,25 +10,20 @@
         <script th:inline="javascript">
             /*<![CDATA[*/
                 var food = /*[[${food}]]*/ 'default';
-
-
                 var foodLabel = document.getElementById("foodLabelId");
                 var foodActual = food.resourceTotal;
                 var foodIncome = food.resourceIncome/60;
+
                 setInterval(setFood, 1000);
 
                 function setFood() {
                     foodActual = foodActual + foodIncome;
                     foodLabel.innerHTML = (Math.round(foodActual*100)/100).toFixed(1);
                     }
-                    console.log();
+
+                console.log(food);
 
             /*]]>*/
-
         </script>
-
     </body>
-
-
-
 </html>

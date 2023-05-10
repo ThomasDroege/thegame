@@ -1,6 +1,6 @@
-package com.thegame.controller
+package com.thegame.ui.controller
 
-import com.thegame.service.UserService
+import com.thegame.business.service.UserService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping

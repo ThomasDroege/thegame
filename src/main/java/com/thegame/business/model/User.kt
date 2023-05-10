@@ -1,4 +1,4 @@
-package com.thegame.model
+package com.thegame.business.model
 
 import jakarta.persistence.*
 
