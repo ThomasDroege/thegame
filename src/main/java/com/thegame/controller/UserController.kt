@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 class UserController(private  val userService: UserService) {
 
-    @RequestMapping("index.html")
-    fun getIndexPage(model: Model): String {
+    @RequestMapping(value = ["users.html"])
+    fun getUsers(model: Model): String {
         model.addAttribute("users", userService.getAllUsers())
-        return "index"
+        return "users"
     }
 }
