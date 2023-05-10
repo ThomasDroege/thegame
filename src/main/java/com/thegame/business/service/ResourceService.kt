@@ -10,4 +10,8 @@ class ResourceService(private val resourceRepository: ResourceRepository) {
     fun getAllResources(): List<Resource> {
         return resourceRepository.findAll()
     }
+
+    fun getResourcesByVillageId(villageId: Long): List<Resource> {
+        return resourceRepository.getResourcesByVillageId(villageId)
+    }
 }

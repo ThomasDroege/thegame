@@ -11,7 +11,11 @@ class VillageController(private  val resourceService: ResourceService) {
 
     @RequestMapping("village.html")
     fun showVillage(model: Model) {
-        val resources: List<Resource> =  resourceService.getAllResources()
+
+        //ToDo: Anpassen - Es sollen hiermit alle Resourcen des Village mit id=1 angezeigt werden
+        // val resources: List<Resource> =  resourceService.getResourcesByVillageId(1L)
+
+        val resources: List<Resource> = resourceService.getAllResources()
         val food = resources[0]
         model.addAttribute("food", food)
 
