@@ -2,27 +2,112 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Village</title>
+
+        <!-- Bootstrap 4.3 css -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <!-- Bootstrap 4.3 js -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+
+
+        <style>
+            .resourcePanel  {
+                display: flex;
+                align-items: center;
+            }
+
+            .resourceContainer {
+                display: flex;
+                align-items: center;
+                margin-right: 20px;
+                padding: 10px 10px;
+                box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+                border-radius: 10px;
+            }
+
+            .resourceIcon {
+                padding-left: 10px;
+            }
+
+        </style>
     </head>
     <body>
         <div class="village">
-            <label id="foodLabelId"/>
+            <div class="resourcePanel">
+                <div class="resourceContainer">
+                    <div class="resourceVal">
+                        <div id="foodValId">
+                        </div>
+                    </div>
+                    <div class="resourceIcon">
+                        Nahrung
+                    </div>
+                </div>
+                <div class="resourceContainer">
+                    <div class="resourceVal">
+                        <div id="woodLabelId">
+                        </div>
+                    </div>  
+                    <div class="resourceIcon">
+                        Holz
+                    </div>
+                </div>
+                <div class="resourceContainer">
+                    <div class="resourceVal">
+                        <div id="stoneLabelId">
+                        </div>
+                    </div>  
+                    <div class="resourceIcon">
+                        Stein
+                    </div>
+                </div>
+                <div class="resourceContainer">
+                    <div class="resourceVal">
+                        <div id="ironLabelId">
+                        </div>
+                    </div>  
+                    <div class="resourceIcon">
+                        Eisen
+                    </div>
+                </div>
+            </div>
         </div>
         <script th:inline="javascript">
             /*<![CDATA[*/
-                var food = /*[[${food}]]*/ 'default';
-                var foodLabel = document.getElementById("foodLabelId");
-                var foodActual = food.resourceTotal;
-                var foodIncome = food.resourceIncome/60;
+                //var food = /*[[${food}]]*/ 'default'; 
+                //var foodActual = food.resourceTotal;
+                //var foodIncome = food.resourceIncome/60;
+                var foodActual = 1000
+                var foodIncome = 20/60          
+                var foodVal = document.getElementById("foodValId");
+                
+                var woodActual = 400
+                var woodIncome = 20/60          
+                var woodLabel = document.getElementById("woodLabelId");
 
-                setInterval(setFood, 1000);
+                var stoneActual = 200
+                var stoneIncome = 5/60          
+                var stoneLabel = document.getElementById("stoneLabelId");
 
-                function setFood() {
+                var ironActual = 50
+                var ironIncome = 0/60          
+                var ironLabel = document.getElementById("ironLabelId");
+
+                setInterval(setResources, 1000);
+
+                function setResources() {
                     foodActual = foodActual + foodIncome;
-                    foodLabel.innerHTML = (Math.round(foodActual*100)/100).toFixed(1);
+                    foodVal.innerHTML = (Math.round(foodActual*100)/100).toFixed(1);
+                    woodActual = woodActual + woodIncome;
+                    woodLabel.innerHTML = (Math.round(woodActual*100)/100).toFixed(1);
+                    stoneActual = stoneActual + stoneIncome;
+                    stoneLabel.innerHTML = (Math.round(stoneActual*100)/100).toFixed(1);
+                    ironActual = ironActual + ironIncome;
+                    ironLabel.innerHTML = (Math.round(ironActual*100)/100).toFixed(1);                    
                     }
-
-                console.log(food);
-
             /*]]>*/
         </script>
     </body>
