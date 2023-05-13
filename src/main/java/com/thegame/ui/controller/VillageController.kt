@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 class VillageController(private  val resourceService: ResourceService) {
 
     @RequestMapping("village.html")
-    fun showVillage(model: Model) {
+    fun showVillage(model: Model):String {
 
         //ToDo: Anpassen - Perspektivisch soll hier Village mit variabler villageId angezeigt werden
         val resources: List<ResourceRepository.ResourceByVillageResponse> =  resourceService.getResourcesByVillageId(1L)
         model.addAttribute("resources", resources)
+        return "village"
     }
 }
