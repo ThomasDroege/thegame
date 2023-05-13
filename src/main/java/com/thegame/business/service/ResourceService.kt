@@ -11,7 +11,7 @@ class ResourceService(private val resourceRepository: ResourceRepository) {
         return resourceRepository.findAll()
     }
 
-    fun getResourcesByVillageId(villageId: Long): List<Resource> {
+    fun getResourcesByVillageId(villageId: Long): List<ResourceRepository.ResourceByVillageResponse> {
         return resourceRepository.getResourcesByVillageId(villageId)
     }
 }

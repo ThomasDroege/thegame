@@ -77,23 +77,27 @@
         </div>
         <script th:inline="javascript">
             /*<![CDATA[*/
-                //var food = /*[[${food}]]*/ 'default'; 
-                //var foodActual = food.resourceTotal;
-                //var foodIncome = food.resourceIncome/60;
-                var foodActual = 1000
-                var foodIncome = 20/60          
+                var resources = /*[[${resources}]]*/ 'default';
+                var secsPerMin = 60;
+                       
+                var food = resources.filter(element => element.resourceName == 'Food')[0];
+                var foodActual = food['resourceTotal'];
+                var foodIncome = food['resourceIncome']/secsPerMin;          
                 var foodVal = document.getElementById("foodValId");
                 
-                var woodActual = 400
-                var woodIncome = 20/60          
+                var wood = resources.filter(res => res.resourceName == 'Wood')[0];
+                var woodActual = wood['resourceTotal'];
+                var woodIncome = wood['resourceIncome']/secsPerMin;                
                 var woodLabel = document.getElementById("woodLabelId");
 
-                var stoneActual = 200
-                var stoneIncome = 5/60          
+                var stone = resources.filter(res => res.resourceName == 'Stone')[0]
+                var stoneActual = stone['resourceTotal'];
+                var stoneIncome = stone['resourceIncome']/secsPerMin;      
                 var stoneLabel = document.getElementById("stoneLabelId");
 
-                var ironActual = 50
-                var ironIncome = 0/60          
+                var iron = resources.filter(res => res.resourceName == 'Iron')[0];
+                var ironActual = iron['resourceTotal'];
+                var ironIncome = iron['resourceIncome']/secsPerMin;       
                 var ironLabel = document.getElementById("ironLabelId");
 
                 setInterval(setResources, 1000);
