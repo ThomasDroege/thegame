@@ -63,8 +63,9 @@ CREATE TABLE thegame.data.resources (
 	resource_id int NOT NULL,
 	village_id int references thegame.data.villages,
 	resource_type_id int references thegame.data.resource_types,
-	resource_total int NOT NULL,
+	resource_at_update_time int NOT NULL,
 	resource_income int NOT NULL,
+	update_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	primary key (resource_id)
 );
 

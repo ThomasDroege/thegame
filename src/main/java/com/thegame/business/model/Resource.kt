@@ -19,9 +19,12 @@ class Resource {
     @JoinColumn(name = "resource_type_id")
     var resourceType: ResourceType? = null
 
-    @Column(name = "resource_total")
-    var resourceTotal: Long? = null
+    @Column(name = "resource_at_update_time")
+    var resourceAtUpdateTime: Long? = null
 
     @Column(name = "resource_income")
     var resourceIncome: Long? = null
+
+    @Column(name = "update_time")
+    var updateTime: String? = null
 }

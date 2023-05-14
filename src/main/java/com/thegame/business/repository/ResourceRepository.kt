@@ -14,15 +14,17 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
     interface ResourceByVillageResponse {
         val resourceId: Long
         val resourceName: String
-        val resourceTotal: Long
+        val resourceAtUpdateTime: Long
         val resourceIncome: Long
+        val updateTime: String
     }
 
     companion object {
         private const val   STMT_RESOURCES_BY_VILLAGE_ID = """
         SELECT  r.resource_id as resourceId,
-                r.resource_total as resourceTotal,
+                r.resource_at_update_time as resourceAtUpdateTime,
                 r.resource_income as resourceIncome,
+                r.update_time as updateTime,
                 rt.resource_name as resourceName
         FROM data.resources r
         JOIN data.resource_types rt ON rt.resource_type_id = r.resource_type_id 
