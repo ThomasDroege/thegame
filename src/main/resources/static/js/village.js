@@ -1,26 +1,31 @@
-var secsPerMin = 60;
-
-var food = resources.filter(element => element.resourceName == 'Food')[0];
-var foodActual = food['resourceAtUpdateTime'];
-var foodIncome = food['resourceIncome']/secsPerMin;
+var secsPerHour = 3600;
+var millisecsPerSec = 1000;
+var food = resources.filter(res => res.resourceName == 'Food')[0];
+var secsDiffFoodTime = (new Date(timestampNow) -  new Date(food.updateTime))/millisecsPerSec;
+var foodActual = food.resourceAtUpdateTime + secsDiffFoodTime*food.resourceIncome/secsPerHour;
+var foodIncome = food.resourceIncome/secsPerHour;
 var foodVal = document.getElementById("foodValId");
 
 var wood = resources.filter(res => res.resourceName == 'Wood')[0];
-var woodActual = wood['resourceAtUpdateTime'];
-var woodIncome = wood['resourceIncome']/secsPerMin;
+var secsDiffWoodTime = (new Date(timestampNow) -  new Date(wood.updateTime))/millisecsPerSec;
+var woodActual = wood.resourceAtUpdateTime + secsDiffWoodTime*wood.resourceIncome/secsPerHour;
+var woodIncome = wood.resourceIncome/secsPerHour;
 var woodLabel = document.getElementById("woodLabelId");
 
 var stone = resources.filter(res => res.resourceName == 'Stone')[0]
-var stoneActual = stone['resourceAtUpdateTime'];
-var stoneIncome = stone['resourceIncome']/secsPerMin;
+var secsDiffStoneTime = (new Date(timestampNow) -  new Date(stone.updateTime))/millisecsPerSec;
+var stoneActual = stone.resourceAtUpdateTime + secsDiffStoneTime*stone.resourceIncome/secsPerHour;
+var stoneIncome = stone.resourceIncome/secsPerHour;
 var stoneLabel = document.getElementById("stoneLabelId");
 
 var iron = resources.filter(res => res.resourceName == 'Iron')[0];
-var ironActual = iron['resourceAtUpdateTime'];
-var ironIncome = iron['resourceIncome']/secsPerMin;
+var secsDiffIronTime = (new Date(timestampNow) -  new Date(iron.updateTime))/millisecsPerSec;
+var ironActual = iron.resourceAtUpdateTime + secsDiffIronTime*iron.resourceIncome/secsPerHour;
+var ironIncome = iron.resourceIncome/secsPerHour;
 var ironLabel = document.getElementById("ironLabelId");
 
-setInterval(setResources, 1000);
+
+setInterval(setResources, millisecsPerSec);
 
 function setResources() {
     foodActual = foodActual + foodIncome;

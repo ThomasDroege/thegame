@@ -5,6 +5,7 @@ import com.thegame.business.service.ResourceService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestMapping
+import java.time.LocalDateTime
 
 @Controller
 class VillageController(private  val resourceService: ResourceService) {
@@ -15,6 +16,7 @@ class VillageController(private  val resourceService: ResourceService) {
         //ToDo: Anpassen - Perspektivisch soll hier Village mit variabler villageId angezeigt werden
         val resources: List<ResourceRepository.ResourceByVillageResponse> =  resourceService.getResourcesByVillageId(1L)
         model.addAttribute("resources", resources)
+        model.addAttribute("timestampNow", LocalDateTime.now())
         return "village"
     }
 }

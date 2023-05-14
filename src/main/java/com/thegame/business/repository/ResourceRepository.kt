@@ -4,6 +4,8 @@ import com.thegame.business.model.Resource
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
+import java.sql.Timestamp
+import java.time.LocalDateTime
 
 @Repository
 interface ResourceRepository: JpaRepository<Resource, Long> {
@@ -16,7 +18,7 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
         val resourceName: String
         val resourceAtUpdateTime: Long
         val resourceIncome: Long
-        val updateTime: String
+        val updateTime: LocalDateTime
     }
 
     companion object {

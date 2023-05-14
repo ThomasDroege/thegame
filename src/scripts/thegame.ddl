@@ -48,8 +48,8 @@ CREATE TABLE thegame.data.resource_types (
 INSERT INTO thegame.data.resource_types
 VALUES
 	(1, 'Food'),
-	(2, 'Stone'),
-	(3, 'Wood'),
+	(2, 'Wood'),
+	(3, 'Stone'),
 	(4, 'Iron');
 
 
@@ -71,11 +71,11 @@ CREATE TABLE thegame.data.resources (
 
 INSERT INTO thegame.data.resources 
 VALUES 
-	(nextval('seq_resource'), 1, 1, 1000, 20),
-	(nextval('seq_resource'), 1, 2, 200, 5),
-	(nextval('seq_resource'), 1, 3, 400, 20),
+	(nextval('seq_resource'), 1, 1, 1000, 100),
+	(nextval('seq_resource'), 1, 2, 400, 100),
+	(nextval('seq_resource'), 1, 3, 200, 25),
 	(nextval('seq_resource'), 1, 4, 50, 0),
-	(nextval('seq_resource'), 2, 1, 1000, 20),
-	(nextval('seq_resource'), 2, 2, 200, 5),
-	(nextval('seq_resource'), 2, 3, 400, 20),
+	(nextval('seq_resource'), 2, 1, 1000, 100),
+	(nextval('seq_resource'), 2, 2, 400, 100),
+	(nextval('seq_resource'), 2, 3, 200, 25),
 	(nextval('seq_resource'), 2, 4, 50, 0);
