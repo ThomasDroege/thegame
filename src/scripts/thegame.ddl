@@ -1,6 +1,6 @@
 --- Users ---
-CREATE SEQUENCE seq_user
-	START WITH 1 
+CREATE SEQUENCE thegame.data.seq_user
+	START WITH 1
 	INCREMENT BY 1;
 
 CREATE TABLE thegame.data.users (
@@ -15,10 +15,10 @@ VALUES
 	(nextval('seq_user'), 'Thomas', 'Dröge'),
 	(nextval('seq_user'), 'Martin', 'Schreiber'),
 	(nextval('seq_user'), 'Max', 'Mustermann');
-	
+
 
 --- Villages ---
-CREATE SEQUENCE seq_village
+CREATE SEQUENCE thegame.data.seq_village
 	START WITH 1
 	INCREMENT BY 1;
 
@@ -30,8 +30,8 @@ CREATE TABLE thegame.data.villages (
 	user_id int references thegame.data.users
 );
 
-INSERT INTO thegame.data.villages 
-VALUES 
+INSERT INTO thegame.data.villages
+VALUES
 	(nextval('seq_village'), 1, 1, 1),
 	(nextval('seq_village'), 5, 10, 2);
 
@@ -52,7 +52,7 @@ VALUES
 
 
 --- Resources ---
-CREATE SEQUENCE seq_resource
+CREATE SEQUENCE thegame.data.seq_resource
 	START WITH 1
 	INCREMENT BY 1;
 
@@ -66,8 +66,8 @@ CREATE TABLE thegame.data.resources (
 	primary key (resource_id)
 );
 
-INSERT INTO thegame.data.resources 
-VALUES 
+INSERT INTO thegame.data.resources
+VALUES
 	(nextval('seq_resource'), 1, 1, 1000, 100),
 	(nextval('seq_resource'), 1, 2, 400, 100),
 	(nextval('seq_resource'), 1, 3, 200, 25),
@@ -95,7 +95,7 @@ VALUES
 
 
 --- Buildings ---
-CREATE SEQUENCE seq_building
+CREATE SEQUENCE thegame.data.seq_building
 	START WITH 1
 	INCREMENT BY 1;
 
