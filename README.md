@@ -11,4 +11,4 @@ UI Package: Funktionalitäten, welche in der UI zur Verfügung gestellt werden, 
 # Historie:
 Stand 13.05.2023
 - Datenbankanbindung für Resourcenanzeige in Village
-![image](https://github.com/ThomasDroege/thegame/assets/25778177/0ac60828-303b-4bc7-b83b-f0ba5b279ccd)
+![image](https://github.com/ThomasDroege/thegame/assets/25778177/b0024332-e8f5-42f5-a6bf-3ee4be45a274)
