@@ -22,7 +22,6 @@ CREATE SEQUENCE seq_village
 	START WITH 1
 	INCREMENT BY 1;
 
-
 CREATE TABLE thegame.data.villages (
 	village_id int NOT NULL,
 	x_coords int NOT NULL,
@@ -35,7 +34,6 @@ INSERT INTO thegame.data.villages
 VALUES 
 	(nextval('seq_village'), 1, 1, 1),
 	(nextval('seq_village'), 5, 10, 2);
-	
 
 
 --- ResourceTypes ---
@@ -58,7 +56,6 @@ CREATE SEQUENCE seq_resource
 	START WITH 1
 	INCREMENT BY 1;
 
-
 CREATE TABLE thegame.data.resources (
 	resource_id int NOT NULL,
 	village_id int references thegame.data.villages,
@@ -79,3 +76,46 @@ VALUES
 	(nextval('seq_resource'), 2, 2, 400, 100),
 	(nextval('seq_resource'), 2, 3, 200, 25),
 	(nextval('seq_resource'), 2, 4, 50, 0);
+
+
+--- Building Types ---
+CREATE TABLE thegame.data.building_types (
+	building_type_id int NOT NULL,
+	building_name varchar(255) NOT NULL,
+	primary key (building_type_id)
+);
+
+INSERT INTO thegame.data.building_types
+VALUES
+	(1, 'City Hall'),
+	(2, 'Mill'),
+	(3, 'Lumberjack'),
+	(4, 'Mason'),
+	(5, 'Iron Mine');
+
+
+--- Buildings ---
+CREATE SEQUENCE seq_building
+	START WITH 1
+	INCREMENT BY 1;
+
+CREATE TABLE thegame.data.buildings (
+	building_id int NOT NULL,
+	village_id int references thegame.data.villages,
+	building_type_id int references thegame.data.building_types,
+	building_level int NOT NULL,
+	primary key (building_id)
+);
+
+INSERT INTO thegame.data.buildings
+VALUES
+	(nextval('seq_building'), 1, 1, 1),
+	(nextval('seq_building'), 1, 2, 1),
+	(nextval('seq_building'), 1, 3, 1),
+	(nextval('seq_building'), 1, 4, 1),
+	(nextval('seq_building'), 1, 5, 0),
+	(nextval('seq_building'), 2, 1, 1),
+	(nextval('seq_building'), 2, 2, 1),
+	(nextval('seq_building'), 2, 3, 1),
+	(nextval('seq_building'), 2, 4, 1),
+	(nextval('seq_building'), 2, 5, 0);
