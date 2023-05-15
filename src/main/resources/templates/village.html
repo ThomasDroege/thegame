@@ -23,45 +23,148 @@
     <body>
 
     <div class="village">
-            <div class="resourcePanel">
-                <div class="resourceContainer">
-                    <div class="resourceVal">
-                        <div id="foodValId">
+        <div class="container">
+            <div class="resourcePanel row pb-3 pt-3">
+                <div class="col-3">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-6 resourceVal">
+                                <div id="foodValId" style="margin-left: 1rem;"></div>
+                            </div>
+                            <div class="col-6 resourceIcon">
+                                Food
+                            </div>
                         </div>
                     </div>
-                    <div class="resourceIcon">
-                        Food
+
+                </div>
+                <div class="col-3">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-6 resourceVal">
+                                <div id="woodValId" style="margin-left: 1rem;"></div>
+                            </div>
+                            <div class="col-6 resourceIcon">
+                                Wood
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="resourceContainer">
-                    <div class="resourceVal">
-                        <div id="woodLabelId">
+                <div class="col-3">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-6 resourceVal">
+                                <div id="stoneValId" style="margin-left: 1rem;"></div>
+                            </div>
+                            <div class="col-6 resourceIcon">
+                                Stone
+                            </div>
                         </div>
-                    </div>  
-                    <div class="resourceIcon">
-                        Wood
                     </div>
                 </div>
-                <div class="resourceContainer">
-                    <div class="resourceVal">
-                        <div id="stoneLabelId">
+                <div class="col-3">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-6 resourceVal">
+                                <div id="ironValId" style="margin-left: 1rem;"></div>
+                            </div>
+                            <div class="col-6 resourceIcon">
+                                Iron
+                            </div>
                         </div>
-                    </div>  
-                    <div class="resourceIcon">
-                        Stone
-                    </div>
-                </div>
-                <div class="resourceContainer">
-                    <div class="resourceVal">
-                        <div id="ironLabelId">
-                        </div>
-                    </div>  
-                    <div class="resourceIcon">
-                        Iron
                     </div>
                 </div>
             </div>
         </div>
+        <div class="container">
+            <div class="row align-items-start pb-3">
+                <div class="col-4">
+                    <div class="card text-center">
+                        <div class="city-hall">
+                            <h5 class="city-hall-title">
+                                City Hall
+                            </h5>
+                            <div class="city-hall-body">
+                                <div th:with="cityHall=${buildings[0]}">
+                                    <p class="city-hall-outcome" th:text="'Outcome: '"/>
+                                    <p class="city-hall-level" th:text="'Level: ' + ${cityHall.buildingLevel}"/>
+                                    <p class="city-hall-update-costs" th:text="'Update Costs: '"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card text-center">
+                        <div class="mill">
+                            <h5 class="mill-title">
+                                Mill
+                            </h5>
+                            <div class="mill-body">
+                                <div th:with="mill=${buildings[1]}">
+                                    <p class="mill-outcome" th:text="'Outcome: '"/>
+                                    <p class="mill-level" th:text="'Level: ' + ${mill.buildingLevel}"/>
+                                    <p class="mill-update-costs" th:text="'Update Costs: '"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card text-center">
+                        <div class="lumber-jack">
+                            <h5 class="lumber-jack-title">
+                                Lumber Jack
+                            </h5>
+                            <div class="lumber-jack-body">
+                                <div th:with="lumberJack=${buildings[2]}">
+                                    <p class="lumber-jack-outcome" th:text="'Outcome: '"/>
+                                    <p class="lumber-jack-level" th:text="'Level: ' + ${lumberJack.buildingLevel}"/>
+                                    <p class="lumber-jack-update-costs" th:text="'Update Costs: '"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-start pb-3">
+                <div class="col-4">
+                    <div class="card text-center">
+                        <div class="mason">
+                            <h5 class="mason-title">
+                                Mason
+                            </h5>
+                            <div class="mason-body">
+                                <div th:with="mason=${buildings[3]}">
+                                    <p class="mason-outcome" th:text="'Outcome: '"/>
+                                    <p class="mason-level" th:text="'Level: ' + ${mason.buildingLevel}"/>
+                                    <p class="mason-update-costs" th:text="'Update Costs: '"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card text-center">
+                        <div class="iron-mine">
+                            <h5 class="iron-mine-title">
+                                Iron Mine
+                            </h5>
+                            <div class="iron-mine-body">
+                                <div th:with="ironMine=${buildings[4]}">
+                                    <p class="iron-mine-outcome" th:text="'Outcome: '"/>
+                                    <p class="iron-mine-level" th:text="'Level: ' + ${ironMine.buildingLevel}"/>
+                                    <p class="iron-mine-update-costs" th:text="'Update Costs: '"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <script type="text/javascript" th:src="@{/js/village.js}"></script>
     </body>
 </html>
