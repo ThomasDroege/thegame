@@ -1,3 +1,8 @@
+--- Data Schema ---
+CREATE SCHEMA "data"
+AUTHORIZATION postgres;
+
+
 --- Users ---
 CREATE SEQUENCE thegame.data.seq_user
 	START WITH 1
@@ -12,9 +17,9 @@ CREATE TABLE thegame.data.users (
 
 INSERT INTO thegame.data.users (user_id, first_name, last_name)
 VALUES
-	(nextval('seq_user'), 'Thomas', 'Dröge'),
-	(nextval('seq_user'), 'Martin', 'Schreiber'),
-	(nextval('seq_user'), 'Max', 'Mustermann');
+	(nextval('thegame.data.seq_user'), 'Thomas', 'Dröge'),
+	(nextval('thegame.data.seq_user'), 'Martin', 'Schreiber'),
+	(nextval('thegame.data.seq_user'), 'Max', 'Mustermann');
 
 
 --- Villages ---
@@ -32,8 +37,8 @@ CREATE TABLE thegame.data.villages (
 
 INSERT INTO thegame.data.villages
 VALUES
-	(nextval('seq_village'), 1, 1, 1),
-	(nextval('seq_village'), 5, 10, 2);
+	(nextval('thegame.data.seq_village'), 1, 1, 1),
+	(nextval('thegame.data.seq_village'), 5, 10, 2);
 
 
 --- ResourceTypes ---
@@ -68,14 +73,14 @@ CREATE TABLE thegame.data.resources (
 
 INSERT INTO thegame.data.resources
 VALUES
-	(nextval('seq_resource'), 1, 1, 1000, 100),
-	(nextval('seq_resource'), 1, 2, 400, 100),
-	(nextval('seq_resource'), 1, 3, 200, 25),
-	(nextval('seq_resource'), 1, 4, 50, 0),
-	(nextval('seq_resource'), 2, 1, 1000, 100),
-	(nextval('seq_resource'), 2, 2, 400, 100),
-	(nextval('seq_resource'), 2, 3, 200, 25),
-	(nextval('seq_resource'), 2, 4, 50, 0);
+	(nextval('thegame.data.seq_resource'), 1, 1, 1000, 100),
+	(nextval('thegame.data.seq_resource'), 1, 2, 400, 100),
+	(nextval('thegame.data.seq_resource'), 1, 3, 200, 25),
+	(nextval('thegame.data.seq_resource'), 1, 4, 50, 0),
+	(nextval('thegame.data.seq_resource'), 2, 1, 1000, 100),
+	(nextval('thegame.data.seq_resource'), 2, 2, 400, 100),
+	(nextval('thegame.data.seq_resource'), 2, 3, 200, 25),
+	(nextval('thegame.data.seq_resource'), 2, 4, 50, 0);
 
 
 --- Building Types ---
@@ -109,13 +114,13 @@ CREATE TABLE thegame.data.buildings (
 
 INSERT INTO thegame.data.buildings
 VALUES
-	(nextval('seq_building'), 1, 1, 1),
-	(nextval('seq_building'), 1, 2, 1),
-	(nextval('seq_building'), 1, 3, 1),
-	(nextval('seq_building'), 1, 4, 1),
-	(nextval('seq_building'), 1, 5, 0),
-	(nextval('seq_building'), 2, 1, 1),
-	(nextval('seq_building'), 2, 2, 1),
-	(nextval('seq_building'), 2, 3, 1),
-	(nextval('seq_building'), 2, 4, 1),
-	(nextval('seq_building'), 2, 5, 0);
+	(nextval('thegame.data.seq_building'), 1, 1, 1),
+	(nextval('thegame.data.seq_building'), 1, 2, 1),
+	(nextval('thegame.data.seq_building'), 1, 3, 1),
+	(nextval('thegame.data.seq_building'), 1, 4, 1),
+	(nextval('thegame.data.seq_building'), 1, 5, 0),
+	(nextval('thegame.data.seq_building'), 2, 1, 1),
+	(nextval('thegame.data.seq_building'), 2, 2, 1),
+	(nextval('thegame.data.seq_building'), 2, 3, 1),
+	(nextval('thegame.data.seq_building'), 2, 4, 1),
+	(nextval('thegame.data.seq_building'), 2, 5, 0);
