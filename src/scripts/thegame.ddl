@@ -1,3 +1,9 @@
+--- Data Base ---
+CREATE DATABASE thegame
+OWNER = postgres
+ENCODING = 'UTF8'
+TABLESPACE = pg_default;
+
 --- Data Schema ---
 CREATE SCHEMA "data"
 AUTHORIZATION postgres;
