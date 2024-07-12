@@ -1,5 +1,4 @@
 # thegame
-
 ## Installation
 
 1. Add your postgres Credentials (spring.datasource.username and spring.datasource.password) in the application.properties file
