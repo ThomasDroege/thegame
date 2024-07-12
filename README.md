@@ -4,7 +4,7 @@
 1. Add your postgres Credentials (```spring.datasource.username``` and ```spring.datasource.password```) in the ```application.properties file```
 2. Populate your local database with execution of  ```thegame.ddl``` script
 3. Start the backend with execution of ```ThegameApplication.java```
-4. Start the frontend (thegame-frontend) react app and navigate to localhost:3000
+4. Start the frontend [thegame-frontend](https://github.com/ThomasDroege/thegame-frontend) react app and navigate to localhost:3000
 
 
 ## Techstack:
