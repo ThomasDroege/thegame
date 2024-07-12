@@ -1,6 +1,14 @@
 # thegame
 
-Techstack:
+## Installation
+
+1. Add your postgres Credentials (spring.datasource.username and spring.datasource.password) in the application.properties file
+2. Populate your local database with execution of  ```thegame.ddl``` script
+3. Start the backend with execution of ```ThegameApplication.java```
+4. Start the frontend (thegame-frontend) react app and navigate to localhost:3000
+
+
+## Techstack:
 
 SpringBoot, Postgres, Thymeleaf, HTML Canvas
 
@@ -15,8 +23,8 @@ Stand 13.05.2023
 
 
 Notizen für docker Einrichtung:
-1) login: docker login
-2) docker run --name some-postgres -p:5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
-3) docker ps : shows all images which are running
-4) kann in DBeaver angeschaut werden 
-5) ToDo: DockerFile erstellen (benötigte Dependencies: Java, Postgres, Ausführen des thegame.ddl Skripts)
+1. login: docker login
+2. docker run --name some-postgres -p:5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres 
+3. docker ps : shows all images which are running
+4. kann in DBeaver angeschaut werden 
+5. ToDo: DockerFile erstellen (benötigte Dependencies: Java, Postgres, Ausführen des thegame.ddl Skripts)
