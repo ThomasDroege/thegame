@@ -1,7 +1,5 @@
-# Should add amazon-corretto-17 to image
-FROM alpine:3.17
-    RUN apk add --no-cache &&\
-            wget -O /etc/apk/keys/amazoncorretto.rsa.pub https://apk.corretto.aws/amazoncorretto.rsa.pub && \
-            echo "https://apk.corretto.aws" >> /etc/apk/repositories && \
-            apk update &&\
-            apk add amazon-corretto-17
+# Dockerfile für Spring Boot Backend mit Eclipse Temurin 17
+FROM eclipse-temurin:17-jre-alpine
+VOLUME /tmp
+COPY target/thegame-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
