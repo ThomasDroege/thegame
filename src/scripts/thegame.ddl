@@ -110,15 +110,17 @@ CREATE SEQUENCE thegame.data.seq_building
 	START WITH 1
 	INCREMENT BY 1;
 
-CREATE TABLE thegame.data.buildings (
+CREATE TABLE thegame.data.buildings2 (
 	building_id int NOT NULL,
 	village_id int references thegame.data.villages,
 	building_type_id int references thegame.data.building_types,
 	building_level int NOT NULL,
+	update_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
 	primary key (building_id)
 );
 
-INSERT INTO thegame.data.buildings
+INSERT INTO thegame.data.buildings2
 VALUES
 	(nextval('thegame.data.seq_building'), 1, 1, 1),
 	(nextval('thegame.data.seq_building'), 1, 2, 1),
@@ -130,3 +132,58 @@ VALUES
 	(nextval('thegame.data.seq_building'), 2, 3, 1),
 	(nextval('thegame.data.seq_building'), 2, 4, 1),
 	(nextval('thegame.data.seq_building'), 2, 5, 0);
+
+---------------------------------------------------------------------------------------------------------------
+------ Wird vermutlich nicht mehr benötigt, da Effect und Building Level über Property Files gelöst wird ------
+---------------------------------------------------------------------------------------------------------------
+
+--- Effect ---
+CREATE SEQUENCE thegame.data.seq_effect
+	START WITH 1
+	INCREMENT BY 1;
+
+CREATE TABLE thegame.data.effect (
+	effect_id int NOT NULL,
+	effect_name varchar(255) NOT NULL,
+	primary key (effect_id)
+);
+
+INSERT INTO thegame.data.effect
+VALUES
+	(nextval('thegame.data.seq_effect'), 1, 1, 1),
+	(nextval('thegame.data.seq_building'), 1, 2, 1),
+	(nextval('thegame.data.seq_building'), 1, 3, 1),
+	(nextval('thegame.data.seq_building'), 1, 4, 1),
+	(nextval('thegame.data.seq_building'), 1, 5, 0),
+	(nextval('thegame.data.seq_building'), 2, 1, 1),
+	(nextval('thegame.data.seq_building'), 2, 2, 1),
+	(nextval('thegame.data.seq_building'), 2, 3, 1),
+	(nextval('thegame.data.seq_building'), 2, 4, 1),
+	(nextval('thegame.data.seq_building'), 2, 5, 0);
+
+
+
+
+--- Building Level ---
+CREATE SEQUENCE thegame.data.seq_building_level
+	START WITH 1
+	INCREMENT BY 1;
+
+CREATE TABLE thegame.data.building_level (
+	building_level_id int NOT NULL,
+	building_type_id int references thegame.data.building_types,
+	building_level int NOT NULL,
+	construction_time int NOT NULL,
+	upgrade_costs_food int NOT NULL,
+	upgrade_costs_wood int NOT NULL,
+	upgrade_costs_stone int NOT NULL,
+	upgrade_costs_iron int NOT NULL,
+	income_food int NOT NULL,
+	income_wood int NOT NULL,
+	income_stone int NOT NULL,
+	income_iron int NOT NULL,
+	effect_multiplier double NOT NULL,
+	effect_total int NOT NULL,
+	effect_id references the.game.data.effect,
+	primary key (building_level_id)
+);
