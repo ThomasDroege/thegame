@@ -10,9 +10,12 @@ import java.time.LocalDateTime
 interface BuildingRepository: JpaRepository<Building, Long> {
 
     @Query(nativeQuery = true, value = STMT_BUILDINGS_BY_VILLAGE_ID)
-    fun getBuildingsByVillageId(villageId: Long):List<BuildingByVillageResponse>
+    fun getBuildingsByVillageId(villageId: Long):List<BuildingsByVillageIdResponse>
 
-    interface BuildingByVillageResponse {
+    @Query(nativeQuery = true, value = STMT_BUILDING_BY_VILLAGE_ID_AND_BUILDING_ID)
+    fun getBuildingByVillageIdAndBuildingId(villageId: Long, buildingTypeId: Long):Building?
+
+    interface BuildingsByVillageIdResponse {
         val buildingId: Long
         val buildingName: String
         val buildingLevel: Long
@@ -28,5 +31,15 @@ interface BuildingRepository: JpaRepository<Building, Long> {
         FROM data.buildings b
         JOIN data.building_types bt ON bt.building_type_id = b.building_type_id 
         WHERE  village_id = :villageId"""
+
+        private const val   STMT_BUILDING_BY_VILLAGE_ID_AND_BUILDING_ID = """
+        SELECT building_id,
+               village_id,
+               building_type_id,
+               building_level,
+               update_time
+        FROM data.buildings b
+        WHERE village_id = :villageId
+        AND building_type_id = :buildingTypeId"""
     }
 }

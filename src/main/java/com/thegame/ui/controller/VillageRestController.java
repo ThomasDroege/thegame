@@ -4,10 +4,7 @@ package com.thegame.ui.controller;
 import com.thegame.business.service.BuildingService;
 import com.thegame.business.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -37,6 +34,12 @@ public class VillageRestController {
         response.put("timestampNow", LocalDateTime.now());
         return response;
     }
+
+    @PostMapping("/increaseBuildingLevel")
+    public void increaseBuildingLevel(@RequestParam Long villageId, @RequestParam Long buildingTypeId) {
+        buildingService.increaseBuildingLevel(villageId, buildingTypeId);
+    }
+
 }
 
 

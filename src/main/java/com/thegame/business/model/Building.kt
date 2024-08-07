@@ -1,6 +1,7 @@
 package com.thegame.business.model
 
 import jakarta.persistence.*
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "buildings", schema = "data")
@@ -21,4 +22,7 @@ class Building {
 
     @Column(name = "building_level")
     var buildingLevel: Long? = null
+
+    @Column(name = "update_time")
+    var updateTime: LocalDateTime? = null
 }
