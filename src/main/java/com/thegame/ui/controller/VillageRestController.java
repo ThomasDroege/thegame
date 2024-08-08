@@ -10,11 +10,9 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/village")
-
-
-@CrossOrigin(origins = "http://localhost:3000")
 public class VillageRestController {
 
     private final ResourceService resourceService;
@@ -26,11 +24,11 @@ public class VillageRestController {
         this.buildingService = buildingService;
     }
 
-    @GetMapping("/data")
-    public Map<String, Object> getVillageData() {
+    @GetMapping("/{villageId}/data")
+    public Map<String, Object> getVillageData(@PathVariable Long villageId) {
         Map<String, Object> response = new HashMap<>();
-        response.put("resources", resourceService.getResourcesByVillageId(1L));
-        response.put("buildings", buildingService.getBuildingsByVillageId(1L));
+        response.put("resources", resourceService.getResourcesByVillageId(villageId));
+        response.put("buildings", buildingService.getBuildingsByVillageId(villageId));
         response.put("timestampNow", LocalDateTime.now());
         return response;
     }
