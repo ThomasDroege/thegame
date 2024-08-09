@@ -35,7 +35,7 @@ public class VillageRestController {
 
     @PostMapping("/increaseBuildingLevel")
     public void increaseBuildingLevel(@RequestParam Long villageId, @RequestParam Long buildingTypeId) {
-        buildingService.increaseBuildingLevel(villageId, buildingTypeId);
+        buildingService.updateBuilding(villageId, buildingTypeId);
     }
 
 }
