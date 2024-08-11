@@ -28,7 +28,7 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
         )
 
     interface ResourceByVillageResponse {
-        val resourceId: Long
+        val resourceTypeId: Long
         val resourceName: String
         val resourceAtUpdateTime: Long
         val resourceIncome: Long
@@ -37,7 +37,7 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
 
     companion object {
         private const val   STMT_RESOURCES_BY_VILLAGE_ID = """
-        SELECT  r.resource_id as resourceId,
+        SELECT  r.resource_type_id as resourceTypeId,
                 r.resource_at_update_time as resourceAtUpdateTime,
                 r.resource_income as resourceIncome,
                 r.update_time as updateTime,

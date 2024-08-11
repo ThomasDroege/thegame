@@ -35,8 +35,8 @@ class BuildingService(private val buildingRepository: BuildingRepository,
          Update Tabelle für Ress Gebäude
       */
         val resourcesByVillageId = resourceService.getResourcesByVillageId(villageId)
-        val stoneByVillageId = resourcesByVillageId.first { res -> res.resourceId == ResourceType.STONE.value }
-        val woodByVillageId = resourcesByVillageId.first { res -> res.resourceId == ResourceType.WOOD.value }
+        val stoneByVillageId = resourcesByVillageId.first { res -> res.resourceTypeId == ResourceType.STONE.value }
+        val woodByVillageId = resourcesByVillageId.first { res -> res.resourceTypeId == ResourceType.WOOD.value }
 
         val nextBuildingsLvl = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId)!!.buildingLevel!!.toLong() + 1
         val updateCosts = getBuildingUpdateCosts(buildingTypeId, nextBuildingsLvl)
