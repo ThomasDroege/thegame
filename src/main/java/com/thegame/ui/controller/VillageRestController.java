@@ -34,9 +34,14 @@ public class VillageRestController {
         return response;
     }
 
-    @PostMapping("/increaseBuildingLevel")
-    public ResponseEntity<String> increaseBuildingLevel(@RequestParam Long villageId, @RequestParam Long buildingTypeId){
-        return buildingService.updateBuilding(villageId, buildingTypeId);
+    @PostMapping("/initiateBuildingUpgrade")
+    public ResponseEntity<String> initiateBuildingUpgrade(@RequestParam Long villageId, @RequestParam Long buildingTypeId){
+        return buildingService.initiateBuildingUpgrade(villageId, buildingTypeId);
+    }
+
+    @PostMapping("/increaseBuildingLvl")
+    public void increaseBuildingLvl(@RequestParam Long villageId, @RequestParam Long buildingTypeId){
+        buildingService.increaseBuildingLevel(villageId, buildingTypeId);
     }
 
 }

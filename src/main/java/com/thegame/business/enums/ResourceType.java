@@ -1,8 +1,10 @@
 package com.thegame.business.enums;
 
 public enum ResourceType {
+    FOOD(1, "food"),
     WOOD(2, "wood"),
-    STONE(3, "stone");
+    STONE(3, "stone"),
+    IRON(4, "iron");
 
     private final long value;
     private final String fullName;
