@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 
 @Service
 class BuildingService(private val buildingRepository: BuildingRepository,
-                      private val resourceRepository: ResourceRepository) {
+                      private val resourceService: ResourceService) {
 
     fun getBuildingsByVillageId(villageId: Long): List<BuildingRepository.BuildingsByVillageIdResponse> {
         return buildingRepository.getBuildingsByVillageId(villageId)
@@ -31,7 +31,7 @@ class BuildingService(private val buildingRepository: BuildingRepository,
          Wenn Timer abgelaufen, dann wird ein Request zum Update der Resourcen gefahren (Resourcen Total seit letztem Ress Update sowie Einkommen)
          Update Tabelle für Ress Gebäude
       */
-        val resourcesByVillageId = resourceRepository.getResourcesByVillageId(villageId)
+        val resourcesByVillageId = resourceService.getResourcesByVillageId(villageId)
 
         //ToDo: Einlesen Auslagern in separate Funktion
         val jsonContent = FileReader.readResourceFile("buildings.json")
