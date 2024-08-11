@@ -1,9 +1,11 @@
 package com.thegame.ui.controller
 
+import com.thegame.business.dto.ResourceUpdateRequestDTO
 import com.thegame.business.model.Resource
 import com.thegame.business.service.ResourceService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -17,7 +19,7 @@ class ResourceRestController(private val resourceService: ResourceService) {
     }
 
     @PutMapping("/update")
-    fun updateResources() {
-        return resourceService.updateResourcesByVillageId()
+    fun updateResources(@RequestBody request: ResourceUpdateRequestDTO) {
+        return resourceService.updateResourcesByVillageId(request)
     }
 }

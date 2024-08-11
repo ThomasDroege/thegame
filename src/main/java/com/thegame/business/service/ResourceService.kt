@@ -1,5 +1,6 @@
 package com.thegame.business.service
 
+import com.thegame.business.dto.ResourceUpdateRequestDTO
 import com.thegame.business.model.Resource
 import com.thegame.business.repository.ResourceRepository
 import org.springframework.stereotype.Service
@@ -15,7 +16,14 @@ class ResourceService(private val resourceRepository: ResourceRepository) {
         return resourceRepository.getResourcesByVillageId(villageId)
     }
 
-    fun updateResourcesByVillageId() {
-        return resourceRepository.updateResourcesByVillageId()
+    fun updateResourcesByVillageId(request: ResourceUpdateRequestDTO) {
+        request.resources.forEach { resource ->
+            resourceRepository.updateResourcesByVillageId(
+                resource.resourceTypeId,
+                request.villageId,
+                resource.resourceAtUpdateTime,
+                resource.resourceIncome
+            )
+        }
     }
 }

@@ -1,9 +1,11 @@
 package com.thegame.business.repository
 
+import com.thegame.business.dto.ResourceUpdateRequestDTO
 import com.thegame.business.model.Resource
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Timestamp
@@ -18,7 +20,12 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
     @Modifying // For UPDATE, DELETE or INSERT statements in Spring Data JPA needed
     @Transactional // For UPDATE, DELETE or INSERT statements in JPA needed
     @Query(nativeQuery = true, value = STMT_UPDATE_RESOURCES_BY_VILLAGE_ID)
-    fun updateResourcesByVillageId()
+    fun updateResourcesByVillageId(
+        @Param("resourceTypeId") resourceTypeId: Long,
+        @Param("villageId") villageId: Long,
+        @Param("resourceAtUpdateTime") resourceAtUpdateTime: Long,
+        @Param("resourceIncome") resourceIncome: Long
+        )
 
     interface ResourceByVillageResponse {
         val resourceId: Long
@@ -40,17 +47,11 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
         WHERE  village_id = :villageId"""
 
         private const val STMT_UPDATE_RESOURCES_BY_VILLAGE_ID = """
-        UPDATE data.resources 
-        SET resource_at_update_time = CASE 
-            WHEN resource_type_id = 3 THEN 1000 
-            WHEN resource_type_id = 4 THEN 2000 
-        END,
-        resource_income = CASE 
-            WHEN resource_type_id = 3 THEN 66 
-            WHEN resource_type_id = 4 THEN 77 
-        END,
-        update_time = now()
-        WHERE village_id = 1 AND resource_type_id IN (3, 4)   
-        """
+        UPDATE data.resources
+        SET resource_at_update_time = :resourceAtUpdateTime,
+            resource_income = :resourceIncome,
+            update_time = CURRENT_TIMESTAMP
+        WHERE resource_type_id = :resourceTypeId 
+        AND village_id = :villageId"""
     }
 }
