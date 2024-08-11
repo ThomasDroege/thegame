@@ -1,5 +1,7 @@
 package com.thegame.business.service
 
+import com.thegame.business.dto.ResourceDto
+import com.thegame.business.dto.ResourceUpdateRequestDTO
 import com.thegame.business.enums.ResourceType
 import com.thegame.business.repository.BuildingRepository
 import com.thegame.business.repository.ResourceRepository
@@ -17,7 +19,6 @@ class BuildingService(private val buildingRepository: BuildingRepository,
         return buildingRepository.getBuildingsByVillageId(villageId)
     }
 
-    //ToDo: Level mitgeben lassen
     //ToDo: HttpStatus 200 wenn erfolgreich, 409 (Conflict), wenn Ressourcen nicht ausreichen (HttpResponseBody, welche Resource fehlt)
     fun updateBuilding(villageId: Long, buildingTypeId: Long) {
         //ToDo: Kommentar entfernen
@@ -32,45 +33,41 @@ class BuildingService(private val buildingRepository: BuildingRepository,
          Update Tabelle für Ress Gebäude
       */
         val resourcesByVillageId = resourceService.getResourcesByVillageId(villageId)
+        val stoneByVillageId = resourcesByVillageId.first { res -> res.resourceId == ResourceType.STONE.value }
+        val woodByVillageId = resourcesByVillageId.first { res -> res.resourceId == ResourceType.WOOD.value }
 
-        //ToDo: Einlesen Auslagern in separate Funktion
-        val jsonContent = FileReader.readResourceFile("buildings.json")
-        val buildingJsonObject = JSONObject(jsonContent)
-        val building = buildingJsonObject.getJSONObject(buildingTypeId.toString())
-        //ToDo: diesen fixen Wert weg
-        val level = "2"
-        val levels = building.getJSONObject("levels")
-        val levelDetails = levels.getJSONObject(level)
-        val updateCosts = levelDetails.getJSONObject("updatecosts")
+        val nextBuildingsLvl = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId)!!.buildingLevel!!.toLong() + 1
+        val updateCosts = getBuildingUpdateCosts(buildingTypeId, nextBuildingsLvl)
 
-
-        val stoneRequired = updateCosts.getLong("stone")
-        val woodRequired = updateCosts.getLong("wood")
-        val stoneByVillageId = resourcesByVillageId
-                .first { res -> res.resourceId.equals(ResourceType.STONE.value) }
-        val woodByVillageId = resourcesByVillageId
-            .first { res -> res.resourceId.equals(ResourceType.WOOD.value) }
-        val stoneEnough = isEnoughResourcesAvailable(stoneByVillageId, stoneRequired)
-        val woodEnough = isEnoughResourcesAvailable(woodByVillageId, woodRequired)
-        if(stoneEnough && woodEnough){
-            //ToDo: ResourcenUpdateRoute fahren (Abziehen der Resourcen)
+        val stoneAfterLvlIncrease = resourcesAfterLvlIncrease(stoneByVillageId, updateCosts!!.getLong(ResourceType.STONE.fullName))
+        val woodAfterLvlIncrease = resourcesAfterLvlIncrease(woodByVillageId, updateCosts.getLong(ResourceType.WOOD.fullName))
+        if(stoneAfterLvlIncrease >= 0 && woodAfterLvlIncrease >= 0){
+            val stoneRes = ResourceDto(ResourceType.STONE.value, stoneAfterLvlIncrease.toLong(), stoneByVillageId.resourceIncome)
+            val woodRes = ResourceDto(ResourceType.WOOD.value, woodAfterLvlIncrease.toLong(), woodByVillageId.resourceIncome)
+            val resourceUpdateRequestDTO =  ResourceUpdateRequestDTO(villageId, listOf(stoneRes, woodRes))
+            resourceService.updateResourcesByVillageId(resourceUpdateRequestDTO)
             //ToDo: increaseLevel später raus, wird nach Ablaufen des Timers aufgerufen
             //ToDo: danach wird ResourceTabelle zum IncomeErhöhen geupdated
             increaseBuildingLevel(villageId, buildingTypeId)
         }
     }
 
-    private fun isEnoughResourcesAvailable(resObj: ResourceRepository.ResourceByVillageResponse, resRequired: Long): Boolean {
+    private fun getBuildingUpdateCosts(buildingTypeId: Long, buildingLevel: Long): JSONObject? {
+        val jsonContent = FileReader.readResourceFile("buildings.json")
+        val buildingJsonObject = JSONObject(jsonContent)
+        val building = buildingJsonObject.getJSONObject(buildingTypeId.toString())
+        val levels = building.getJSONObject("levels")
+        val levelDetails = levels.getJSONObject(buildingLevel.toString())
+        return levelDetails.getJSONObject("updatecosts")
+    }
+
+    private fun resourcesAfterLvlIncrease(resObj: ResourceRepository.ResourceByVillageResponse, resRequired: Long): Float {
         val now = LocalDateTime.now()
         val timeDiffInSecs = Duration.between(resObj.updateTime, now).seconds
         val resIncomePerSec = resObj.resourceIncome.toFloat()/3600
         val resNow= resObj.resourceAtUpdateTime + resIncomePerSec*timeDiffInSecs
 
-        return if(resRequired.toFloat() < resNow) {
-            true
-        } else {
-            false
-        }
+        return resNow - resRequired.toFloat()
     }
 
     private fun increaseBuildingLevel(villageId: Long, buildingTypeId: Long) {

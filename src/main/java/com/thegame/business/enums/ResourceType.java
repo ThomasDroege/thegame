@@ -5,19 +5,19 @@ public enum ResourceType {
     STONE(3, "stone");
 
     private final long value;
-    private final String name;
+    private final String fullName;
 
-    ResourceType(long value, String name) {
+    ResourceType(long value, String fullName) {
         this.value = value;
-        this.name = name;
+        this.fullName = fullName;
     }
 
     public long getValue() {
         return value;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
     public static ResourceType fromValue(long value) {
@@ -29,12 +29,12 @@ public enum ResourceType {
         throw new IllegalArgumentException("Unknown value: " + value);
     }
 
-    public static ResourceType fromName(String name) {
+    public static ResourceType fromName(String fullName) {
         for (ResourceType type : ResourceType.values()) {
-            if (type.getName().equalsIgnoreCase(name)) {
+            if (type.getFullName().equalsIgnoreCase(fullName)) {
                 return type;
             }
         }
-        throw new IllegalArgumentException("Unknown name: " + name);
+        throw new IllegalArgumentException("Unknown name: " + fullName);
     }
 }
