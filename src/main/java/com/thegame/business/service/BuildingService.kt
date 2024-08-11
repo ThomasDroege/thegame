@@ -7,6 +7,8 @@ import com.thegame.business.repository.BuildingRepository
 import com.thegame.business.repository.ResourceRepository
 import com.thegame.business.utils.FileReader
 import org.json.JSONObject
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.time.Duration
 import java.time.LocalDateTime
@@ -19,8 +21,8 @@ class BuildingService(private val buildingRepository: BuildingRepository,
         return buildingRepository.getBuildingsByVillageId(villageId)
     }
 
-    //ToDo: HttpStatus 200 wenn erfolgreich, 409 (Conflict), wenn Ressourcen nicht ausreichen (HttpResponseBody, welche Resource fehlt)
-    fun updateBuilding(villageId: Long, buildingTypeId: Long) {
+    //ToDo: (HttpResponseBody, welche Resource fehlt)
+    fun updateBuilding(villageId: Long, buildingTypeId: Long): ResponseEntity<String> {
         //ToDo: Kommentar entfernen
         /*
          Button drücken zum Erhöhen des Gebäude Levels
@@ -49,6 +51,10 @@ class BuildingService(private val buildingRepository: BuildingRepository,
             //ToDo: increaseLevel später raus, wird nach Ablaufen des Timers aufgerufen
             //ToDo: danach wird ResourceTabelle zum IncomeErhöhen geupdated
             increaseBuildingLevel(villageId, buildingTypeId)
+            return ResponseEntity.ok("Building Increased successfully")
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Not enough Resources")
         }
     }
 
