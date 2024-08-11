@@ -31,17 +31,6 @@ class BuildingService(private val buildingRepository: BuildingRepository,
      * das Gebäude Level hochgesetzt und die Verbesserung des Gebäudes geupdated (wie z.B. Ertragserhöhung)
      */
     fun initiateBuildingUpgrade(villageId: Long, buildingTypeId: Long): ResponseEntity<String> {
-        //ToDo: Kommentar entfernen
-        /*
-         Button drücken zum Erhöhen des Gebäude Levels
-         Gebäude Level wurde mitgegeben und in der env Datei im Backend geschaut, wieviel Resourcen notwendig sind
-         Resourcen des Dorfes aus Resource-Table beziehen und checken ob es reicht zum Update
-         Falls Ja ein 200 zurückgeben, Falls nein einen anderen 409 (CONFLICT)
-         Wenn 200er, dann wird ein Timer im Frontend gestartet, welcher anzeigt, wielange es benötigt, bis Gebäude gebaut ist.
-         Es wird ein Update auf die ResourcenTabelle gefahren: Resourcen Einkommen auf ResourceTotal draufrechnen seit letztem Update und danach Resourcen abziehen für den bau
-         Wenn Timer abgelaufen, dann wird ein Request zum Update der Resourcen gefahren (Resourcen Total seit letztem Ress Update sowie Einkommen)
-         Update Tabelle für Ress Gebäude
-      */
         val resourcesByVillageId = resourceService.getResourcesByVillageId(villageId)
         val stoneByVillageId = resourcesByVillageId.first { res -> res.resourceTypeId == ResourceType.STONE.value }
         val woodByVillageId = resourcesByVillageId.first { res -> res.resourceTypeId == ResourceType.WOOD.value }
@@ -104,6 +93,7 @@ class BuildingService(private val buildingRepository: BuildingRepository,
                 println("Info: Update of building without increase of resource outcome.")
             }
         } else {
+            //TODO: Http Code zurückgeben
             print("TODO: HTTP Code zurückgeben")
         }
     }
