@@ -1,6 +1,7 @@
 package com.thegame.ui.controller;
 
 
+import com.thegame.business.dto.TimerUpdateRequestDTO;
 import com.thegame.business.service.TimerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,11 @@ public class TimerRestController {
         Map<String, Object> response = new HashMap<>();
         response.put("timer", timerService.getBuildingTimerByVillageId(villageId));
         return response;
+    }
+
+    @PutMapping("/update/building")
+    public void updateBuildingTimer(@RequestBody TimerUpdateRequestDTO request) {
+        timerService.updateBuildingTimerByVillageId(request);
     }
 }
 

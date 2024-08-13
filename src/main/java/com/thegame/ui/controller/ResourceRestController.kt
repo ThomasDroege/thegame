@@ -19,7 +19,6 @@ class ResourceRestController(private val resourceService: ResourceService) {
     }
 
     @PutMapping("/update")
-    fun updateResources(@RequestBody request: ResourceUpdateRequestDTO) {
-        return resourceService.updateResourcesByVillageId(request)
-    }
+    fun updateResources(@RequestBody request: ResourceUpdateRequestDTO) =
+        resourceService.updateResourcesByVillageId(request)
 }
