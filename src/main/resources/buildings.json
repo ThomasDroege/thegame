@@ -3,7 +3,7 @@
     "name": "city hall",
     "levels": {
       "1": {
-        "buildingtime": 10,
+        "buildingtime": {"seconds": 10},
         "updatecosts": {
           "stone": 10,
           "wood": 10
@@ -13,7 +13,7 @@
         }
       },
       "2": {
-        "buildingtime": 20,
+        "buildingtime": {"seconds": 20},
         "updatecosts": {
           "stone": 20,
           "wood": 20
@@ -23,7 +23,7 @@
         }
       },
       "3": {
-        "buildingtime": 30,
+        "buildingtime": {"seconds": 30},
         "updatecosts": {
           "stone": 30,
           "wood": 30
@@ -33,7 +33,7 @@
         }
       },
       "4": {
-        "buildingtime": 40,
+        "buildingtime": {"seconds": 40},
         "updatecosts": {
           "stone": 40,
           "wood": 40
@@ -43,7 +43,7 @@
         }
       },
       "5": {
-        "buildingtime": 50,
+        "buildingtime": {"seconds": 50},
         "updatecosts": {
           "stone": 50,
           "wood": 50
@@ -53,7 +53,7 @@
         }
       },
       "6": {
-        "buildingtime": 60,
+        "buildingtime": {"seconds": 60},
         "updatecosts": {
           "stone": 60,
           "wood": 60
@@ -63,7 +63,7 @@
         }
       },
       "7": {
-        "buildingtime": 70,
+        "buildingtime": {"seconds": 70},
         "updatecosts": {
           "stone": 70,
           "wood": 70
@@ -73,7 +73,7 @@
         }
       },
       "8": {
-        "buildingtime": 80,
+        "buildingtime": {"seconds": 80},
         "updatecosts": {
           "stone": 80,
           "wood": 80
@@ -83,7 +83,7 @@
         }
       },
       "9": {
-        "buildingtime": 90,
+        "buildingtime": {"seconds": 90},
         "updatecosts": {
           "stone": 90,
           "wood": 90
@@ -93,7 +93,7 @@
         }
       },
       "10": {
-        "buildingtime": 100,
+        "buildingtime": {"seconds": 100},
         "updatecosts": {
           "stone": 100,
           "wood": 100
@@ -103,7 +103,7 @@
         }
       },
       "11": {
-        "buildingtime": 110,
+        "buildingtime": {"seconds": 110},
         "updatecosts": {
           "stone": 110,
           "wood": 110
@@ -113,7 +113,7 @@
         }
       },
       "12": {
-        "buildingtime": 120,
+        "buildingtime": {"seconds": 120},
         "updatecosts": {
           "stone": 120,
           "wood": 120
@@ -123,7 +123,7 @@
         }
       },
       "13": {
-        "buildingtime": 130,
+        "buildingtime": {"seconds": 130},
         "updatecosts": {
           "stone": 130,
           "wood": 130
@@ -133,7 +133,7 @@
         }
       },
       "14": {
-        "buildingtime": 140,
+        "buildingtime": {"seconds": 140},
         "updatecosts": {
           "stone": 140,
           "wood": 140
@@ -143,7 +143,7 @@
         }
       },
       "15": {
-        "buildingtime": 150,
+        "buildingtime": {"seconds": 150},
         "updatecosts": {
           "stone": 150,
           "wood": 150
@@ -153,7 +153,7 @@
         }
       },
       "16": {
-        "buildingtime": 160,
+        "buildingtime": {"seconds": 160},
         "updatecosts": {
           "stone": 160,
           "wood": 160
@@ -163,7 +163,7 @@
         }
       },
       "17": {
-        "buildingtime": 170,
+        "buildingtime": {"seconds": 170},
         "updatecosts": {
           "stone": 170,
           "wood": 170
@@ -173,7 +173,7 @@
         }
       },
       "18": {
-        "buildingtime": 180,
+        "buildingtime": {"seconds": 180},
         "updatecosts": {
           "stone": 180,
           "wood": 180
@@ -183,7 +183,7 @@
         }
       },
       "19": {
-        "buildingtime": 190,
+        "buildingtime": {"seconds": 190},
         "updatecosts": {
           "stone": 190,
           "wood": 190
@@ -193,7 +193,7 @@
         }
       },
       "20": {
-        "buildingtime": 200,
+        "buildingtime": {"seconds": 200},
         "updatecosts": {
           "stone": 200,
           "wood": 200
@@ -208,7 +208,7 @@
     "name": "mill",
     "levels": {
       "1": {
-        "buildingtime": 10,
+        "buildingtime": {"seconds": 10},
         "updatecosts": {
           "stone": 10,
           "wood": 10
@@ -219,7 +219,7 @@
         }
       },
       "2": {
-        "buildingtime": 20,
+        "buildingtime": {"seconds": 20},
         "updatecosts": {
           "stone": 20,
           "wood": 20
@@ -230,7 +230,7 @@
         }
       },
       "3": {
-        "buildingtime": 30,
+        "buildingtime": {"seconds": 30},
         "updatecosts": {
           "stone": 30,
           "wood": 30
@@ -241,7 +241,7 @@
         }
       },
       "4": {
-        "buildingtime": 40,
+        "buildingtime": {"seconds": 40},
         "updatecosts": {
           "stone": 40,
           "wood": 40
@@ -252,7 +252,7 @@
         }
       },
       "5": {
-        "buildingtime": 50,
+        "buildingtime": {"seconds": 50},
         "updatecosts": {
           "stone": 50,
           "wood": 50
@@ -263,7 +263,7 @@
         }
       },
       "6": {
-        "buildingtime": 60,
+        "buildingtime": {"seconds": 60},
         "updatecosts": {
           "stone": 60,
           "wood": 60
@@ -274,7 +274,7 @@
         }
       },
       "7": {
-        "buildingtime": 70,
+        "buildingtime": {"seconds": 70},
         "updatecosts": {
           "stone": 70,
           "wood": 70
@@ -285,7 +285,7 @@
         }
       },
       "8": {
-        "buildingtime": 80,
+        "buildingtime": {"seconds": 80},
         "updatecosts": {
           "stone": 80,
           "wood": 80
@@ -296,7 +296,7 @@
         }
       },
       "9": {
-        "buildingtime": 90,
+        "buildingtime": {"seconds": 90},
         "updatecosts": {
           "stone": 90,
           "wood": 90
@@ -307,7 +307,7 @@
         }
       },
       "10": {
-        "buildingtime": 100,
+        "buildingtime": {"seconds": 100},
         "updatecosts": {
           "stone": 100,
           "wood": 100
@@ -318,7 +318,7 @@
         }
       },
       "11": {
-        "buildingtime": 110,
+        "buildingtime": {"seconds": 110},
         "updatecosts": {
           "stone": 110,
           "wood": 110
@@ -329,7 +329,7 @@
         }
       },
       "12": {
-        "buildingtime": 120,
+        "buildingtime": {"seconds": 120},
         "updatecosts": {
           "stone": 120,
           "wood": 120
@@ -340,7 +340,7 @@
         }
       },
       "13": {
-        "buildingtime": 130,
+        "buildingtime": {"seconds": 130},
         "updatecosts": {
           "stone": 130,
           "wood": 130
@@ -351,7 +351,7 @@
         }
       },
       "14": {
-        "buildingtime": 140,
+        "buildingtime": {"seconds": 140},
         "updatecosts": {
           "stone": 140,
           "wood": 140
@@ -362,7 +362,7 @@
         }
       },
       "15": {
-        "buildingtime": 150,
+        "buildingtime": {"seconds": 150},
         "updatecosts": {
           "stone": 150,
           "wood": 150
@@ -373,7 +373,7 @@
         }
       },
       "16": {
-        "buildingtime": 160,
+        "buildingtime": {"seconds": 160},
         "updatecosts": {
           "stone": 160,
           "wood": 160
@@ -384,7 +384,7 @@
         }
       },
       "17": {
-        "buildingtime": 170,
+        "buildingtime": {"seconds": 170},
         "updatecosts": {
           "stone": 170,
           "wood": 170
@@ -395,7 +395,7 @@
         }
       },
       "18": {
-        "buildingtime": 180,
+        "buildingtime": {"seconds": 180},
         "updatecosts": {
           "stone": 180,
           "wood": 180
@@ -406,7 +406,7 @@
         }
       },
       "19": {
-        "buildingtime": 190,
+        "buildingtime": {"seconds": 190},
         "updatecosts": {
           "stone": 190,
           "wood": 190
@@ -417,7 +417,7 @@
         }
       },
       "20": {
-        "buildingtime": 200,
+        "buildingtime": {"seconds": 200},
         "updatecosts": {
           "stone": 200,
           "wood": 200
@@ -433,7 +433,7 @@
     "name": "lumberjack",
     "levels": {
       "1": {
-        "buildingtime": 10,
+        "buildingtime": {"seconds": 10},
         "updatecosts": {
           "stone": 10,
           "wood": 10
@@ -444,7 +444,7 @@
         }
       },
       "2": {
-        "buildingtime": 20,
+        "buildingtime": {"seconds": 20},
         "updatecosts": {
           "stone": 20,
           "wood": 20
@@ -455,7 +455,7 @@
         }
       },
       "3": {
-        "buildingtime": 30,
+        "buildingtime": {"seconds": 30},
         "updatecosts": {
           "stone": 30,
           "wood": 30
@@ -466,7 +466,7 @@
         }
       },
       "4": {
-        "buildingtime": 40,
+        "buildingtime": {"seconds": 40},
         "updatecosts": {
           "stone": 40,
           "wood": 40
@@ -477,7 +477,7 @@
         }
       },
       "5": {
-        "buildingtime": 50,
+        "buildingtime": {"seconds": 50},
         "updatecosts": {
           "stone": 50,
           "wood": 50
@@ -488,7 +488,7 @@
         }
       },
       "6": {
-        "buildingtime": 60,
+        "buildingtime": {"seconds": 60},
         "updatecosts": {
           "stone": 60,
           "wood": 60
@@ -499,7 +499,7 @@
         }
       },
       "7": {
-        "buildingtime": 70,
+        "buildingtime": {"seconds": 70},
         "updatecosts": {
           "stone": 70,
           "wood": 70
@@ -510,7 +510,7 @@
         }
       },
       "8": {
-        "buildingtime": 80,
+        "buildingtime": {"seconds": 80},
         "updatecosts": {
           "stone": 80,
           "wood": 80
@@ -521,7 +521,7 @@
         }
       },
       "9": {
-        "buildingtime": 90,
+        "buildingtime": {"seconds": 90},
         "updatecosts": {
           "stone": 90,
           "wood": 90
@@ -532,7 +532,7 @@
         }
       },
       "10": {
-        "buildingtime": 100,
+        "buildingtime": {"seconds": 100},
         "updatecosts": {
           "stone": 100,
           "wood": 100
@@ -543,7 +543,7 @@
         }
       },
       "11": {
-        "buildingtime": 110,
+        "buildingtime": {"seconds": 110},
         "updatecosts": {
           "stone": 110,
           "wood": 110
@@ -554,7 +554,7 @@
         }
       },
       "12": {
-        "buildingtime": 120,
+        "buildingtime": {"seconds": 120},
         "updatecosts": {
           "stone": 120,
           "wood": 120
@@ -565,7 +565,7 @@
         }
       },
       "13": {
-        "buildingtime": 130,
+        "buildingtime": {"seconds": 130},
         "updatecosts": {
           "stone": 130,
           "wood": 130
@@ -576,7 +576,7 @@
         }
       },
       "14": {
-        "buildingtime": 140,
+        "buildingtime": {"seconds": 140},
         "updatecosts": {
           "stone": 140,
           "wood": 140
@@ -587,7 +587,7 @@
         }
       },
       "15": {
-        "buildingtime": 150,
+        "buildingtime": {"seconds": 150},
         "updatecosts": {
           "stone": 150,
           "wood": 150
@@ -598,7 +598,7 @@
         }
       },
       "16": {
-        "buildingtime": 160,
+        "buildingtime": {"seconds": 160},
         "updatecosts": {
           "stone": 160,
           "wood": 160
@@ -609,7 +609,7 @@
         }
       },
       "17": {
-        "buildingtime": 170,
+        "buildingtime": {"seconds": 170},
         "updatecosts": {
           "stone": 170,
           "wood": 170
@@ -620,7 +620,7 @@
         }
       },
       "18": {
-        "buildingtime": 180,
+        "buildingtime": {"seconds": 180},
         "updatecosts": {
           "stone": 180,
           "wood": 180
@@ -631,7 +631,7 @@
         }
       },
       "19": {
-        "buildingtime": 190,
+        "buildingtime": {"seconds": 190},
         "updatecosts": {
           "stone": 190,
           "wood": 190
@@ -642,7 +642,7 @@
         }
       },
       "20": {
-        "buildingtime": 200,
+        "buildingtime": {"seconds": 200},
         "updatecosts": {
           "stone": 200,
           "wood": 200
@@ -658,7 +658,7 @@
     "name": "mason",
     "levels": {
       "1": {
-        "buildingtime": 10,
+        "buildingtime": {"seconds": 10},
         "updatecosts": {
           "stone": 10,
           "wood": 10
@@ -669,7 +669,7 @@
         }
       },
       "2": {
-        "buildingtime": 20,
+        "buildingtime": {"seconds": 20},
         "updatecosts": {
           "stone": 20,
           "wood": 20
@@ -680,7 +680,7 @@
         }
       },
       "3": {
-        "buildingtime": 30,
+        "buildingtime": {"seconds": 30},
         "updatecosts": {
           "stone": 30,
           "wood": 30
@@ -691,7 +691,7 @@
         }
       },
       "4": {
-        "buildingtime": 40,
+        "buildingtime": {"seconds": 40},
         "updatecosts": {
           "stone": 40,
           "wood": 40
@@ -702,7 +702,7 @@
         }
       },
       "5": {
-        "buildingtime": 50,
+        "buildingtime": {"seconds": 50},
         "updatecosts": {
           "stone": 50,
           "wood": 50
@@ -713,7 +713,7 @@
         }
       },
       "6": {
-        "buildingtime": 60,
+        "buildingtime": {"seconds": 60},
         "updatecosts": {
           "stone": 60,
           "wood": 60
@@ -724,7 +724,7 @@
         }
       },
       "7": {
-        "buildingtime": 70,
+        "buildingtime": {"seconds": 70},
         "updatecosts": {
           "stone": 70,
           "wood": 70
@@ -735,7 +735,7 @@
         }
       },
       "8": {
-        "buildingtime": 80,
+        "buildingtime": {"seconds": 80},
         "updatecosts": {
           "stone": 80,
           "wood": 80
@@ -746,7 +746,7 @@
         }
       },
       "9": {
-        "buildingtime": 90,
+        "buildingtime": {"seconds": 90},
         "updatecosts": {
           "stone": 90,
           "wood": 90
@@ -757,7 +757,7 @@
         }
       },
       "10": {
-        "buildingtime": 100,
+        "buildingtime": {"seconds": 100},
         "updatecosts": {
           "stone": 100,
           "wood": 100
@@ -768,7 +768,7 @@
         }
       },
       "11": {
-        "buildingtime": 110,
+        "buildingtime": {"seconds": 110},
         "updatecosts": {
           "stone": 110,
           "wood": 110
@@ -779,7 +779,7 @@
         }
       },
       "12": {
-        "buildingtime": 120,
+        "buildingtime": {"seconds": 120},
         "updatecosts": {
           "stone": 120,
           "wood": 120
@@ -790,7 +790,7 @@
         }
       },
       "13": {
-        "buildingtime": 130,
+        "buildingtime": {"seconds": 130},
         "updatecosts": {
           "stone": 130,
           "wood": 130
@@ -801,7 +801,7 @@
         }
       },
       "14": {
-        "buildingtime": 140,
+        "buildingtime": {"seconds": 140},
         "updatecosts": {
           "stone": 140,
           "wood": 140
@@ -812,7 +812,7 @@
         }
       },
       "15": {
-        "buildingtime": 150,
+        "buildingtime": {"seconds": 150},
         "updatecosts": {
           "stone": 150,
           "wood": 150
@@ -823,7 +823,7 @@
         }
       },
       "16": {
-        "buildingtime": 160,
+        "buildingtime": {"seconds": 160},
         "updatecosts": {
           "stone": 160,
           "wood": 160
@@ -834,7 +834,7 @@
         }
       },
       "17": {
-        "buildingtime": 170,
+        "buildingtime": {"seconds": 170},
         "updatecosts": {
           "stone": 170,
           "wood": 170
@@ -845,7 +845,7 @@
         }
       },
       "18": {
-        "buildingtime": 180,
+        "buildingtime": {"seconds": 180},
         "updatecosts": {
           "stone": 180,
           "wood": 180
@@ -856,7 +856,7 @@
         }
       },
       "19": {
-        "buildingtime": 190,
+        "buildingtime": {"seconds": 190},
         "updatecosts": {
           "stone": 190,
           "wood": 190
@@ -867,7 +867,7 @@
         }
       },
       "20": {
-        "buildingtime": 200,
+        "buildingtime": {"seconds": 200},
         "updatecosts": {
           "stone": 200,
           "wood": 200
@@ -883,7 +883,7 @@
     "name": "iron mine",
     "levels": {
       "1": {
-        "buildingtime": 10,
+        "buildingtime": {"seconds": 10},
         "updatecosts": {
           "stone": 10,
           "wood": 10
@@ -894,7 +894,7 @@
         }
       },
       "2": {
-        "buildingtime": 20,
+        "buildingtime": {"seconds": 20},
         "updatecosts": {
           "stone": 20,
           "wood": 20
@@ -905,7 +905,7 @@
         }
       },
       "3": {
-        "buildingtime": 30,
+        "buildingtime": {"seconds": 30},
         "updatecosts": {
           "stone": 30,
           "wood": 30
@@ -916,7 +916,7 @@
         }
       },
       "4": {
-        "buildingtime": 40,
+        "buildingtime": {"seconds": 40},
         "updatecosts": {
           "stone": 40,
           "wood": 40
@@ -927,7 +927,7 @@
         }
       },
       "5": {
-        "buildingtime": 50,
+        "buildingtime": {"seconds": 50},
         "updatecosts": {
           "stone": 50,
           "wood": 50
@@ -938,7 +938,7 @@
         }
       },
       "6": {
-        "buildingtime": 60,
+        "buildingtime": {"seconds": 60},
         "updatecosts": {
           "stone": 60,
           "wood": 60
@@ -949,7 +949,7 @@
         }
       },
       "7": {
-        "buildingtime": 70,
+        "buildingtime": {"seconds": 70},
         "updatecosts": {
           "stone": 70,
           "wood": 70
@@ -960,7 +960,7 @@
         }
       },
       "8": {
-        "buildingtime": 80,
+        "buildingtime": {"seconds": 80},
         "updatecosts": {
           "stone": 80,
           "wood": 80
@@ -971,7 +971,7 @@
         }
       },
       "9": {
-        "buildingtime": 90,
+        "buildingtime": {"seconds": 90},
         "updatecosts": {
           "stone": 90,
           "wood": 90
@@ -982,7 +982,7 @@
         }
       },
       "10": {
-        "buildingtime": 100,
+        "buildingtime": {"seconds": 100},
         "updatecosts": {
           "stone": 100,
           "wood": 100
@@ -993,7 +993,7 @@
         }
       },
       "11": {
-        "buildingtime": 110,
+        "buildingtime": {"seconds": 110},
         "updatecosts": {
           "stone": 110,
           "wood": 110
@@ -1004,7 +1004,7 @@
         }
       },
       "12": {
-        "buildingtime": 120,
+        "buildingtime": {"seconds": 120},
         "updatecosts": {
           "stone": 120,
           "wood": 120
@@ -1015,7 +1015,7 @@
         }
       },
       "13": {
-        "buildingtime": 130,
+        "buildingtime": {"seconds": 130},
         "updatecosts": {
           "stone": 130,
           "wood": 130
@@ -1026,7 +1026,7 @@
         }
       },
       "14": {
-        "buildingtime": 140,
+        "buildingtime": {"seconds": 140},
         "updatecosts": {
           "stone": 140,
           "wood": 140
@@ -1037,7 +1037,7 @@
         }
       },
       "15": {
-        "buildingtime": 150,
+        "buildingtime": {"seconds": 150},
         "updatecosts": {
           "stone": 150,
           "wood": 150
@@ -1048,7 +1048,7 @@
         }
       },
       "16": {
-        "buildingtime": 160,
+        "buildingtime": {"seconds": 160},
         "updatecosts": {
           "stone": 160,
           "wood": 160
@@ -1059,7 +1059,7 @@
         }
       },
       "17": {
-        "buildingtime": 170,
+        "buildingtime": {"seconds": 170},
         "updatecosts": {
           "stone": 170,
           "wood": 170
@@ -1070,7 +1070,7 @@
         }
       },
       "18": {
-        "buildingtime": 180,
+        "buildingtime": {"seconds": 180},
         "updatecosts": {
           "stone": 180,
           "wood": 180
@@ -1081,7 +1081,7 @@
         }
       },
       "19": {
-        "buildingtime": 190,
+        "buildingtime": {"seconds": 190},
         "updatecosts": {
           "stone": 190,
           "wood": 190
@@ -1092,7 +1092,7 @@
         }
       },
       "20": {
-        "buildingtime": 200,
+        "buildingtime": {"seconds": 200},
         "updatecosts": {
           "stone": 200,
           "wood": 200

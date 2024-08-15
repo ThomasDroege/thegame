@@ -1,6 +1,5 @@
 package com.thegame.business.repository
 
-import com.thegame.business.dto.ResourceUpdateRequestDTO
 import com.thegame.business.model.Resource
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
@@ -8,7 +7,6 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
-import java.sql.Timestamp
 import java.time.LocalDateTime
 
 @Repository
@@ -23,14 +21,23 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
     fun updateResourcesByVillageId(
         @Param("resourceTypeId") resourceTypeId: Long,
         @Param("villageId") villageId: Long,
-        @Param("resourceAtUpdateTime") resourceAtUpdateTime: Long,
+        @Param("resourceAtUpdateTime") resourceAtUpdateTime: Long?,
         @Param("resourceIncome") resourceIncome: Long
         )
+
+    @Modifying // For UPDATE, DELETE or INSERT statements in Spring Data JPA needed
+    @Transactional // For UPDATE, DELETE or INSERT statements in JPA needed
+    @Query(nativeQuery = true, value = STMT_DELETE_RESOURCE_BY_UPDATETIME)
+    fun deleteResourceByUpdateTime(
+        @Param("villageId") villageId: Long,
+        @Param("resourceTypeId") resourceTypeId: Long,
+        @Param("updateTime") updateTime: LocalDateTime
+    )
 
     interface ResourceByVillageResponse {
         val resourceTypeId: Long
         val resourceName: String
-        val resourceAtUpdateTime: Long
+        val resourceAtUpdateTime: Long?
         val resourceIncome: Long
         val updateTime: LocalDateTime
     }
@@ -53,5 +60,11 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
             update_time = CURRENT_TIMESTAMP
         WHERE resource_type_id = :resourceTypeId 
         AND village_id = :villageId"""
+
+        private const val STMT_DELETE_RESOURCE_BY_UPDATETIME = """
+        DELETE FROM data.resources r  
+        WHERE r.village_id = :villageId
+        AND r.resource_type_id = :resourceTypeId
+        AND r.update_time = :updateTime"""
     }
 }

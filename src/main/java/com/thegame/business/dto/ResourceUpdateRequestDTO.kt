@@ -7,6 +7,6 @@ data class ResourceUpdateRequestDTO (
 
 data class ResourceDto(
     val resourceTypeId: Long,
-    val resourceAtUpdateTime: Long,
+    val resourceAtUpdateTime: Long?,
     val resourceIncome: Long
 )

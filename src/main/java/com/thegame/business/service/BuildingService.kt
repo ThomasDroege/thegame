@@ -26,25 +26,40 @@ class BuildingService(private val buildingRepository: BuildingRepository,
     /**
      * Startet die Erhöhung des Gebäude-Levels.
      *
-     * Diese Methode zieht die Resourcen für das Gebäude Update ab.
-     * Im Frontend wird ein Timer gestartet und nach Ablaufen dieses wird über eine separate Route
-     * das Gebäude Level hochgesetzt und die Verbesserung des Gebäudes geupdated (wie z.B. Ertragserhöhung)
+     * Diese Methode zieht die Resourcen für das Gebäude Update ab und setzt das Gebäude Level hoch.
+     * Die UpdateTime wird entsprechend der Bauzeit in die Zukunft gesetzt.
      */
-    fun initiateBuildingUpgrade(villageId: Long, buildingTypeId: Long): ResponseEntity<String> {
-        val resourcesByVillageId = resourceService.getResourcesByVillageId(villageId)
-        val stoneByVillageId = resourcesByVillageId.first { res -> res.resourceTypeId == ResourceType.STONE.value }
-        val woodByVillageId = resourcesByVillageId.first { res -> res.resourceTypeId == ResourceType.WOOD.value }
-
+    fun buildingUpgrade(villageId: Long, buildingTypeId: Long): ResponseEntity<String> {
+        //UpdateCosts and BuildingTime for next Building Lvl
         val nextBuildingsLvl = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId)!!.buildingLevel!!.toLong() + 1
         val updateCosts = getBuildingUpdateDetails(buildingTypeId, nextBuildingsLvl, "updatecosts")
+        val updateDuration = getBuildingUpdateDetails(buildingTypeId, nextBuildingsLvl, "buildingtime")?.getLong("seconds")
+
+        // Aggregate Resources
+        val resourcesByVillageId = resourceService.getResourcesByVillageId(villageId)
+        resourceService.aggregateAndUpdateResources(resourcesByVillageId, villageId)
+
+        // Decrease Resources by UpdateCosts
+        val resourcesAfterAggregateByVillageId = resourceService.getResourcesByVillageId(villageId)
+        val stoneByVillageId = resourcesAfterAggregateByVillageId.first { res -> res.resourceTypeId == ResourceType.STONE.value }
+        val woodByVillageId = resourcesAfterAggregateByVillageId.first { res -> res.resourceTypeId == ResourceType.WOOD.value }
 
         val stoneAfterLvlIncrease = resourcesAfterLvlIncrease(stoneByVillageId, updateCosts!!.getLong(ResourceType.STONE.fullName))
         val woodAfterLvlIncrease = resourcesAfterLvlIncrease(woodByVillageId, updateCosts.getLong(ResourceType.WOOD.fullName))
-        if(stoneAfterLvlIncrease >= 0 && woodAfterLvlIncrease >= 0){
+        if (stoneAfterLvlIncrease >= 0 && woodAfterLvlIncrease >= 0) {
             val stoneRes = ResourceDto(ResourceType.STONE.value, stoneAfterLvlIncrease.toLong(), stoneByVillageId.resourceIncome)
             val woodRes = ResourceDto(ResourceType.WOOD.value, woodAfterLvlIncrease.toLong(), woodByVillageId.resourceIncome)
             val resourceUpdateRequestDTO =  ResourceUpdateRequestDTO(villageId, listOf(stoneRes, woodRes))
             resourceService.updateResourcesByVillageId(resourceUpdateRequestDTO)
+
+            // Update Building Level
+            val updatedBuilding = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId)
+            if(updatedBuilding != null) {
+                updatedBuilding.buildingLevel = updatedBuilding.buildingLevel?.plus(1)
+                updatedBuilding.updateTime = LocalDateTime.now().plusSeconds(updateDuration!!)
+                buildingRepository.save(updatedBuilding)
+            }
+
             return ResponseEntity.ok("Building Increased successfully")
         }
         else {
@@ -66,35 +81,27 @@ class BuildingService(private val buildingRepository: BuildingRepository,
         val now = LocalDateTime.now()
         val timeDiffInSecs = Duration.between(resObj.updateTime, now).seconds
         val resIncomePerSec = resObj.resourceIncome.toFloat()/3600
-        val resNow= resObj.resourceAtUpdateTime + resIncomePerSec*timeDiffInSecs
+        val resNow = resObj.resourceAtUpdateTime?.plus(resIncomePerSec*timeDiffInSecs)
 
-        return resNow - resRequired.toFloat()
+        return resNow!!.minus(resRequired.toFloat())
     }
 
+    //TODO: ggf refakturieren
     fun increaseBuildingLevel(villageId: Long, buildingTypeId: Long) {
-        val updatedBuilding = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId)
-        if(updatedBuilding != null) {
-            updatedBuilding.buildingLevel = updatedBuilding.buildingLevel?.plus(1)
-            updatedBuilding.updateTime = LocalDateTime.now()
-            buildingRepository.save(updatedBuilding)
 
-            try{
-                val nextBuildingsLvl = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId)!!.buildingLevel!!.toLong()
-                val resourceIncome = getBuildingUpdateDetails(buildingTypeId, nextBuildingsLvl, "income")
-                val resourceTypeId = resourceIncome!!.getLong("resourceTypeId")
-                val resIncome = resourceIncome.getLong("value")
-                val resourcesByVillageId = resourceService.getResourcesByVillageId(villageId)
-                val resourceByVillageId = resourcesByVillageId.first { res ->  res.resourceTypeId ==  resourceTypeId }
-                val updateResource = ResourceDto(resourceTypeId, resourceByVillageId.resourceAtUpdateTime, resIncome)
-                val resourceUpdateRequestDTO =  ResourceUpdateRequestDTO(villageId, listOf(updateResource))
-                resourceService.updateResourcesByVillageId(resourceUpdateRequestDTO)
+        try{
+            val nextBuildingsLvl = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId)!!.buildingLevel!!.toLong()
+            val resourceIncome = getBuildingUpdateDetails(buildingTypeId, nextBuildingsLvl, "income")
+            val resourceTypeId = resourceIncome!!.getLong("resourceTypeId")
+            val resIncome = resourceIncome.getLong("value")
+            val resourcesByVillageId = resourceService.getResourcesByVillageId(villageId)
+            val resourceByVillageId = resourcesByVillageId.first { res ->  res.resourceTypeId ==  resourceTypeId }
+            val updateResource = ResourceDto(resourceTypeId, resourceByVillageId.resourceAtUpdateTime, resIncome)
+            val resourceUpdateRequestDTO =  ResourceUpdateRequestDTO(villageId, listOf(updateResource))
+            resourceService.updateResourcesByVillageId(resourceUpdateRequestDTO)
 
-            } catch (e: JSONException) {
-                println("Info: Update of building without increase of resource outcome.")
-            }
-        } else {
-            //TODO: Http Code zurückgeben
-            print("TODO: HTTP Code zurückgeben")
+        } catch (e: JSONException) {
+            println("Info: Update of building without increase of resource outcome.")
         }
     }
 }
