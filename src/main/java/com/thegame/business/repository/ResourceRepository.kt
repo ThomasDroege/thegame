@@ -22,8 +22,9 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
         @Param("resourceTypeId") resourceTypeId: Long,
         @Param("villageId") villageId: Long,
         @Param("resourceAtUpdateTime") resourceAtUpdateTime: Long?,
-        @Param("resourceIncome") resourceIncome: Long
-        )
+        @Param("resourceIncome") resourceIncome: Long,
+        @Param("updateTime") updateTime: LocalDateTime?
+    )
 
     @Modifying // For UPDATE, DELETE or INSERT statements in Spring Data JPA needed
     @Transactional // For UPDATE, DELETE or INSERT statements in JPA needed
@@ -32,6 +33,16 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
         @Param("villageId") villageId: Long,
         @Param("resourceTypeId") resourceTypeId: Long,
         @Param("updateTime") updateTime: LocalDateTime
+    )
+
+    @Modifying // For UPDATE, DELETE or INSERT statements in Spring Data JPA needed
+    @Transactional // For UPDATE, DELETE or INSERT statements in JPA needed
+    @Query(nativeQuery = true, value = STMT_INSERT_RESOURCE_BY_VILLAGE_ID)
+    fun insertResourceByVillageId(
+        @Param("villageId") villageId: Long,
+        @Param("resourceTypeId") resourceTypeId: Long,
+        @Param("resourceAtUpdateTime") resourceAtUpdateTime: Long?,
+        @Param("resourceIncome") resourceIncome: Long
     )
 
     interface ResourceByVillageResponse {
@@ -57,14 +68,24 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
         UPDATE data.resources
         SET resource_at_update_time = :resourceAtUpdateTime,
             resource_income = :resourceIncome,
-            update_time = CURRENT_TIMESTAMP
+            update_time = :updateTime
         WHERE resource_type_id = :resourceTypeId 
-        AND village_id = :villageId"""
+        AND village_id = :villageId
+        AND update_time = :updateTime"""
 
         private const val STMT_DELETE_RESOURCE_BY_UPDATETIME = """
         DELETE FROM data.resources r  
         WHERE r.village_id = :villageId
         AND r.resource_type_id = :resourceTypeId
         AND r.update_time = :updateTime"""
+
+        private const val STMT_INSERT_RESOURCE_BY_VILLAGE_ID = """
+        INSERT INTO data.resources 
+        VALUES (nextval('thegame.data.seq_resource'),
+                :villageId, 
+                :resourceTypeId,
+                :resourceAtUpdateTime,
+                :resourceIncome,
+                CURRENT_TIMESTAMP)"""
     }
 }

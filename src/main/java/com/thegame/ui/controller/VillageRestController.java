@@ -38,13 +38,4 @@ public class VillageRestController {
     public ResponseEntity<String> initiateBuildingUpgrade(@RequestParam Long villageId, @RequestParam Long buildingTypeId){
         return buildingService.buildingUpgrade(villageId, buildingTypeId);
     }
-
-    //ToDo: ggf Löschen, da das Building direkt nach Knopfdruck geupdated wird
-    @PostMapping("/increaseBuildingLvl")
-    public void increaseBuildingLvl(@RequestParam Long villageId, @RequestParam Long buildingTypeId){
-        buildingService.increaseBuildingLevel(villageId, buildingTypeId);
-    }
-
 }
-
-
