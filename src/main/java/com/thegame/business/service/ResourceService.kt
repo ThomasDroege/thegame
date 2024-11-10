@@ -8,6 +8,7 @@ import com.thegame.business.repository.ResourceRepository
 import org.springframework.stereotype.Service
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Service
 class ResourceService(private val resourceRepository: ResourceRepository) {
@@ -18,6 +19,10 @@ class ResourceService(private val resourceRepository: ResourceRepository) {
 
     fun getResourcesByVillageId(villageId: Long): List<ResourceRepository.ResourceByVillageResponse> {
         return resourceRepository.getResourcesByVillageId(villageId)
+    }
+
+    fun getAggregatedResourcesByVillageId(villageId: Long): List<ResourceRepository.ResourceByVillageResponse> {
+        return resourceRepository.getAggregatedResourcesByVillageId(villageId)
     }
 
     fun updateResourcesByVillageId(request: ResourceUpdateRequestDTO) {

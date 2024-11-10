@@ -12,8 +12,11 @@ import java.time.LocalDateTime
 @Repository
 interface ResourceRepository: JpaRepository<Resource, Long> {
 
-    @Query(nativeQuery = true, value = STMT_RESOURCES_BY_VILLAGE_ID)
+    @Query(nativeQuery = true, value = STMT_RESOURCES_BY_VILLAGE_ID_OLD)
     fun getResourcesByVillageId(villageId: Long):List<ResourceByVillageResponse>
+
+    @Query(nativeQuery = true, value = STMT_AGGREGATED_RESOURCES_BY_VILLAGE_ID)
+    fun getAggregatedResourcesByVillageId(villageId: Long):List<ResourceByVillageResponse>
 
     @Modifying // For UPDATE, DELETE or INSERT statements in Spring Data JPA needed
     @Transactional // For UPDATE, DELETE or INSERT statements in JPA needed
@@ -54,7 +57,7 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
     }
 
     companion object {
-        private const val   STMT_RESOURCES_BY_VILLAGE_ID = """
+        private const val   STMT_RESOURCES_BY_VILLAGE_ID_OLD = """
         SELECT  r.resource_type_id as resourceTypeId,
                 r.resource_at_update_time as resourceAtUpdateTime,
                 r.resource_income as resourceIncome,
@@ -63,6 +66,27 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
         FROM data.resources r
         JOIN data.resource_types rt ON rt.resource_type_id = r.resource_type_id 
         WHERE  village_id = :villageId"""
+
+        private const val STMT_AGGREGATED_RESOURCES_BY_VILLAGE_ID = """
+        WITH max_update_time AS (
+            SELECT r.resource_type_id,
+            MAX(r.update_time) AS max_update_time
+            FROM data.resources r
+            WHERE r.village_id = :villageId
+            GROUP BY r.resource_type_id)
+        SELECT r.resource_type_id AS resourceTypeId,
+        COALESCE(MAX(r.resource_at_update_time), 0) + SUM(
+        CASE WHEN r.update_time = mu.max_update_time THEN 0
+        ELSE (EXTRACT(EPOCH FROM (mu.max_update_time - r.update_time)) / 3600) * r.resource_income
+        END) AS resourceAtUpdateTime,
+        MAX(r.resource_income) AS resourceIncome,
+        MAX(r.update_time) AS updateTime,
+        rt.resource_name AS resourceName
+        FROM data.resources r
+        JOIN data.resource_types rt ON rt.resource_type_id = r.resource_type_id
+        JOIN max_update_time mu ON mu.resource_type_id = r.resource_type_id
+        WHERE r.village_id = :villageId
+        GROUP BY r.resource_type_id, rt.resource_name"""
 
         private const val STMT_UPDATE_RESOURCES_BY_VILLAGE_ID = """
         UPDATE data.resources

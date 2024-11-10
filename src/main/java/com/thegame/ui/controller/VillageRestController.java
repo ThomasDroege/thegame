@@ -28,7 +28,7 @@ public class VillageRestController {
     @GetMapping("/{villageId}/data")
     public Map<String, Object> getVillageData(@PathVariable Long villageId) {
         Map<String, Object> response = new HashMap<>();
-        response.put("resources", resourceService.getResourcesByVillageId(villageId));
+        response.put("resources", resourceService.getAggregatedResourcesByVillageId(villageId));
         response.put("buildings", buildingService.getBuildingsByVillageId(villageId));
         response.put("timestampNow", LocalDateTime.now());
         return response;
