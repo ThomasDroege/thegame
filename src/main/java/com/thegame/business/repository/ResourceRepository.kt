@@ -70,8 +70,7 @@ interface ResourceRepository: JpaRepository<Resource, Long> {
             resource_income = :resourceIncome,
             update_time = :updateTime
         WHERE resource_type_id = :resourceTypeId 
-        AND village_id = :villageId
-        AND update_time = :updateTime"""
+        AND village_id = :villageId"""
 
         private const val STMT_DELETE_RESOURCE_BY_UPDATETIME = """
         DELETE FROM data.resources r  

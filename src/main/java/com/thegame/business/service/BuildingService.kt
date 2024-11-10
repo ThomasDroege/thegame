@@ -29,13 +29,15 @@ class BuildingService(private val buildingRepository: BuildingRepository,
      * Die UpdateTime wird entsprechend der Bauzeit in die Zukunft gesetzt.
      */
     fun buildingUpgrade(villageId: Long, buildingTypeId: Long): ResponseEntity<String> {
+
         //UpdateCosts and BuildingTime for next Building Lvl
         val nextBuildingsLvl = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId)!!.buildingLevel!!.toLong() + 1
         val updateCosts = getBuildingUpdateDetails(buildingTypeId, nextBuildingsLvl, "updatecosts")
         val updateDuration = getBuildingUpdateDetails(buildingTypeId, nextBuildingsLvl, "buildingtime")?.getLong("seconds")
 
         //TODO: ggf. noch anpassen, weil mehrere Zeilen zusammengerechnet werden müssen
-        val resourcesByVillageId = resourceService.getResourcesByVillageId(villageId)
+        var resourcesByVillageId = resourceService.getResourcesByVillageId(villageId)
+
         val stoneByVillageId = resourcesByVillageId.first { res -> res.resourceTypeId == ResourceType.STONE.value && res.resourceAtUpdateTime != null }
         val woodByVillageId = resourcesByVillageId.first { res -> res.resourceTypeId == ResourceType.WOOD.value && res.resourceAtUpdateTime != null  }
 
@@ -47,26 +49,21 @@ class BuildingService(private val buildingRepository: BuildingRepository,
         if(stoneAfterLvlIncrease < 0 || woodAfterLvlIncrease < 0) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Not enough Resources")
         } else {
+
+
+
+/*
             // Decrease Resources by UpdateCosts
             val stoneRes = ResourceDto(ResourceType.STONE.value, stoneAfterLvlIncrease.toLong(), stoneByVillageId.resourceIncome, stoneByVillageId.updateTime)
             val woodRes = ResourceDto(ResourceType.WOOD.value, woodAfterLvlIncrease.toLong(), woodByVillageId.resourceIncome, woodByVillageId.updateTime)
             val resourceUpdateRequestDTO =  ResourceUpdateRequestDTO(villageId, listOf(stoneRes, woodRes))
             resourceService.updateResourcesByVillageId(resourceUpdateRequestDTO)
-
-            //ToDo: das hier implementieren
-            /*
-            Falls Gebäude Update resource_income betrifft:
-                Update Resource Tabelle
-                    Hinzufügen einer neuen Zeile für betreffende Ressource  mit null ressource_at_update_time, erhöhtem resource_income und update_time in Zukunft
-                Update Resource Tabelle
-                    Aggregation Resourcen
-                        Falls zwei Zeilen vorhanden & die Zeile mit resource_at_update_time = null und neuerem update_time < LocalDateTime.now()  soll der errechnete Absolutebetrag aus älteren Zeile in neue Zeile übertragen werden
-            Update Building Lvl
-             */
+*/
 
 
             // Aggregate Resources
             resourceService.aggregateAndUpdateResources(resourcesByVillageId, villageId)
+
 
             // Add new line for upcoming resourceIncome
             //ToDo: Bauen der Liste in BuildingType Enum auslagern
@@ -77,6 +74,8 @@ class BuildingService(private val buildingRepository: BuildingRepository,
                 val resIncome = resourceIncome.getLong("value")
                 resourceService.insertResource(villageId, resourceTypeId , null, resIncome)
             }
+
+
 
             // Update Building Level
             val updatedBuilding = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId)
