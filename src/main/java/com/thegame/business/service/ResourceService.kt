@@ -5,7 +5,6 @@ import com.thegame.business.dto.ResourceUpdateRequestDTO
 import com.thegame.business.enums.ResourceType
 import com.thegame.business.model.Resource
 import com.thegame.business.repository.ResourceRepository
-import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Service
 import java.time.Duration
 import java.time.LocalDateTime
@@ -41,39 +40,25 @@ class ResourceService(private val resourceRepository: ResourceRepository) {
         resourceRepository.insertResourceByVillageId(villageId, resourceTypeId, resourceAtUpdateTime, resourceIncome)
     }
 
+
+
     fun aggregateAndUpdateResources(resourcesByVillageId :List<ResourceRepository.ResourceByVillageResponse>, villageId: Long) {
-        val foodTotal = resourcesByVillageId.filter { res -> res.resourceTypeId == ResourceType.FOOD.value }.sortedBy { res -> res.updateTime }
-        val woodTotal = resourcesByVillageId.filter { res -> res.resourceTypeId == ResourceType.WOOD.value }.sortedBy { res -> res.updateTime }
-        val stoneTotal = resourcesByVillageId.filter { res -> res.resourceTypeId == ResourceType.STONE.value }.sortedBy { res -> res.updateTime }
-        val ironTotal = resourcesByVillageId.filter { res -> res.resourceTypeId == ResourceType.IRON.value }.sortedBy { res -> res.updateTime }
-        val aggregatedFoodResources = foodTotal[0].resourceAtUpdateTime?.plus(Duration.between(foodTotal[0].updateTime, LocalDateTime.now()).seconds*foodTotal[0].resourceIncome/3600)
-        val aggregatedWoodResources = woodTotal[0].resourceAtUpdateTime?.plus(Duration.between(woodTotal[0].updateTime, LocalDateTime.now()).seconds*woodTotal[0].resourceIncome/3600)
-        val aggregatedStoneResources = stoneTotal[0].resourceAtUpdateTime?.plus(Duration.between(stoneTotal[0].updateTime, LocalDateTime.now()).seconds*stoneTotal[0].resourceIncome/3600)
-        val aggregatedIronResources = ironTotal[0].resourceAtUpdateTime?.plus(Duration.between(ironTotal[0].updateTime, LocalDateTime.now()).seconds*ironTotal[0].resourceIncome/3600)
-
-        val foodIncomeByVillage = foodTotal.maxBy{ res -> res.resourceIncome}.resourceIncome
-        val woodIncomeByVillage = woodTotal.maxBy{ res -> res.resourceIncome}.resourceIncome
-        val stoneIncomeByVillage = stoneTotal.maxBy{ res -> res.resourceIncome}.resourceIncome
-        val ironIncomeByVillage = ironTotal.maxBy{ res -> res.resourceIncome}.resourceIncome
-
         val updateList: MutableList<ResourceDto> = mutableListOf()
-        if(foodTotal.size == 2 && foodTotal[1].updateTime < LocalDateTime.now()) {
-            deleteResourceByUpdateTime(villageId, ResourceType.FOOD.value, foodTotal[0].updateTime)
-            updateList.add(ResourceDto(ResourceType.FOOD.value, aggregatedFoodResources, foodIncomeByVillage, LocalDateTime.now()))
 
+        fun aggregateResource(resourceTypeId: Long) {
+            val resourceObjectByResourceTypeId = resourcesByVillageId.filter { res -> res.resourceTypeId == resourceTypeId }.sortedBy { res -> res.updateTime }
+            val aggregatedResources = resourceObjectByResourceTypeId[0].resourceAtUpdateTime?.plus(Duration.between(resourceObjectByResourceTypeId[0].updateTime, LocalDateTime.now()).seconds*resourceObjectByResourceTypeId[0].resourceIncome/3600)
+            val maxIncomeByResourceTypeId = resourceObjectByResourceTypeId.maxBy{ res -> res.resourceIncome}.resourceIncome
+            if(resourceObjectByResourceTypeId.size == 2 && resourceObjectByResourceTypeId[1].updateTime < LocalDateTime.now()) {
+                deleteResourceByUpdateTime(villageId, resourceTypeId, resourceObjectByResourceTypeId[0].updateTime)
+                updateList.add(ResourceDto(resourceTypeId, aggregatedResources, maxIncomeByResourceTypeId, LocalDateTime.now()))
+            }
         }
-        if(woodTotal.size == 2 && woodTotal[1].updateTime < LocalDateTime.now()) {
-            deleteResourceByUpdateTime(villageId, ResourceType.WOOD.value, woodTotal[0].updateTime)
-            updateList.add(ResourceDto(ResourceType.WOOD.value, aggregatedWoodResources, woodIncomeByVillage, LocalDateTime.now()))
-        }
-        if(stoneTotal.size == 2 && stoneTotal[1].updateTime < LocalDateTime.now()) {
-            deleteResourceByUpdateTime(villageId, ResourceType.STONE.value, stoneTotal[0].updateTime)
-            updateList.add(ResourceDto(ResourceType.STONE.value, aggregatedStoneResources, stoneIncomeByVillage, LocalDateTime.now()))
-        }
-        if(ironTotal.size == 2 && ironTotal[1].updateTime < LocalDateTime.now()) {
-            deleteResourceByUpdateTime(villageId, ResourceType.IRON.value, ironTotal[0].updateTime)
-            updateList.add(ResourceDto(ResourceType.IRON.value, aggregatedIronResources, ironIncomeByVillage, LocalDateTime.now()))
-        }
+
+        aggregateResource(ResourceType.FOOD.value)
+        aggregateResource(ResourceType.WOOD.value)
+        aggregateResource(ResourceType.STONE.value)
+        aggregateResource(ResourceType.IRON.value)
 
         if(updateList.isNotEmpty()) {
             updateResourcesByVillageId(ResourceUpdateRequestDTO(villageId, updateList))
