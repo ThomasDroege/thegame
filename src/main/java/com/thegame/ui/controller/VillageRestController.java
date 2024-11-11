@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +36,7 @@ public class VillageRestController {
     }
 
     @PostMapping("/initiateBuildingUpgrade")
-    public ResponseEntity<String> initiateBuildingUpgrade(@RequestParam Long villageId, @RequestParam Long buildingTypeId){
+    public ResponseEntity<String> initiateBuildingUpgrade(@RequestParam Long villageId, @RequestParam Long buildingTypeId) throws IOException, URISyntaxException {
         return buildingService.buildingUpgrade(villageId, buildingTypeId);
     }
 }
