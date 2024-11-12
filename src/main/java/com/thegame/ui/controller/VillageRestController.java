@@ -1,6 +1,7 @@
 package com.thegame.ui.controller;
 
 
+import com.thegame.business.dto.ResponseDto;
 import com.thegame.business.service.BuildingService;
 import com.thegame.business.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -36,7 +38,7 @@ public class VillageRestController {
     }
 
     @PostMapping("/initiateBuildingUpgrade")
-    public ResponseEntity<String> initiateBuildingUpgrade(@RequestParam Long villageId, @RequestParam Long buildingTypeId) throws IOException, URISyntaxException {
+    public ResponseEntity<List<ResponseDto>> initiateBuildingUpgrade(@RequestParam Long villageId, @RequestParam Long buildingTypeId) throws IOException, URISyntaxException {
         return buildingService.buildingUpgrade(villageId, buildingTypeId);
     }
 }

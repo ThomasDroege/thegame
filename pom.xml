@@ -42,6 +42,7 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- TODO delete unused kotlin dependencies -->
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-stdlib-jdk8</artifactId>
