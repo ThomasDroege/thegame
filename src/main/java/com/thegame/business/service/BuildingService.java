@@ -67,7 +67,7 @@ public class BuildingService {
         }
     }
 
-    private HashMap<String, Long> getNextBuildingLvlInfos(Long villageId, Long buildingTypeId) throws IOException, URISyntaxException {
+    public HashMap<String, Long> getNextBuildingLvlInfos(Long villageId, Long buildingTypeId) throws IOException, URISyntaxException {
         long nextBuildingLevel = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId).getBuildingLevel() + 1;
         JSONObject updateCosts = getBuildingUpdateDetails(buildingTypeId, nextBuildingLevel, "updatecosts");
         HashMap<String, Long> updateCostsAndDurationMap = new HashMap<>();

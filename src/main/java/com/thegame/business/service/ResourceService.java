@@ -56,7 +56,6 @@ public class ResourceService {
     public void aggregateAndUpdateResources(List<ResourceRepository.ResourceByVillageResponse> resourcesByVillageId, Long villageId) {
         List<ResourceDto> updateList = new ArrayList<>();
 
-        // Helper method to aggregate resources
         this.aggregateResource(resourcesByVillageId, villageId, ResourceType.FOOD.getValue(), updateList);
         this.aggregateResource(resourcesByVillageId, villageId, ResourceType.WOOD.getValue(), updateList);
         this.aggregateResource(resourcesByVillageId, villageId, ResourceType.STONE.getValue(), updateList);
