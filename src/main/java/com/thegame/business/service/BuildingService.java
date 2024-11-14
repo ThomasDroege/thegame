@@ -9,9 +9,12 @@ import com.thegame.business.repository.BuildingRepository;
 import com.thegame.business.repository.ResourceRepository;
 import com.thegame.business.utils.FileReader;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -21,6 +24,9 @@ import java.util.*;
 
 @Service
 public class BuildingService {
+
+    private static final Logger logger = LoggerFactory.getLogger(BuildingService.class);
+
 
     private final BuildingRepository buildingRepository;
     private final ResourceService resourceService;
@@ -40,6 +46,8 @@ public class BuildingService {
      * Diese Methode zieht die Resourcen für das Gebäude Update ab und setzt das Gebäude Level hoch.
      * Die UpdateTime wird entsprechend der Bauzeit in die Zukunft gesetzt.
      */
+    // rollbackFor standard behaviour: only for RunTimeExceptions and Errors
+    @Transactional(rollbackFor = { NullPointerException.class, IllegalStateException.class, IOException.class, URISyntaxException.class })
     public ResponseEntity<List<ResponseDto>> buildingUpgrade(Long villageId, Long buildingTypeId) throws IOException, URISyntaxException {
         List<ResourceRepository.ResourceByVillageResponse> resourcesByVillageId = resourceService.getResourcesByVillageId(villageId);
 
@@ -63,6 +71,8 @@ public class BuildingService {
             addNewResRowIfBuildingChangesResIncome(buildingTypeId, updateCostsAndDurationMap.get("nextBuildingLevel"), villageId);
             updateBuildingLvl(villageId, buildingTypeId, updateCostsAndDurationMap.get("updateDuration"));
 
+            // Line for Test purpose of transaction rollback
+            //  stoneAfterLvlIncrease = retrieveResourcesAfterLvlIncrease(stoneByVillageId, updateCostsAndDurationMap.get("stoeUpdateCosts"));
             return ResponseEntity.ok(Collections.emptyList());
         }
     }
@@ -105,6 +115,11 @@ public class BuildingService {
     }
 
     private Float retrieveResourcesAfterLvlIncrease(ResourceRepository.ResourceByVillageResponse resObj, Long resRequired) {
+        if (resObj == null || resRequired == null) {
+            logger.debug("Retrieving of Resources after Lvl Increase does not work with resRequired: {} and resObj: {}", resRequired, resObj);
+            throw new IllegalArgumentException("Retrieving of Resources after Lvl Increase does not work! Rollback of transaction done");
+
+        }
         LocalDateTime now = LocalDateTime.now();
         long timeDiffInSecs = Duration.between(resObj.getUpdateTime(), now).getSeconds();
         float resIncomePerSec = resObj.getResourceIncome().floatValue() / 3600;
