@@ -5,6 +5,7 @@ import com.thegame.business.dto.ResourceUpdateRequestDTO;
 import com.thegame.business.dto.ResponseDto;
 import com.thegame.business.enums.BuildingType;
 import com.thegame.business.enums.ResourceType;
+import com.thegame.business.model.BuildingLevel;
 import com.thegame.business.repository.BuildingRepository;
 import com.thegame.business.repository.ResourceRepository;
 import com.thegame.business.utils.FileReader;
@@ -30,10 +31,12 @@ public class BuildingService {
 
     private final BuildingRepository buildingRepository;
     private final ResourceService resourceService;
+    private final BuildingLevelService buildingLevelService;
 
-    public BuildingService(BuildingRepository buildingRepository, ResourceService resourceService) {
+    public BuildingService(BuildingRepository buildingRepository, ResourceService resourceService, BuildingLevelService buildingLevelService) {
         this.buildingRepository = buildingRepository;
         this.resourceService = resourceService;
+        this.buildingLevelService = buildingLevelService;
     }
 
     public List<BuildingRepository.BuildingsByVillageIdResponse> getBuildingsByVillageId(Long villageId) {
@@ -55,11 +58,17 @@ public class BuildingService {
        // resourceService.aggregateAndUpdateResources(resourcesByVillageId, villageId);
        // resourcesByVillageId = resourceService.getResourcesByVillageId(villageId);
         //großes ToDo: kein Aggregieren von RessZeilen sondern Update von einer RessZeile
+        // ToDo: Integrationstests
 
         //ToDo: Nutzen der buildinglevel Tabellen
         //ToDo: Auslagern in separaten BuildingLevelService
         //ToDo: Schreiben von Unit Tests
         HashMap<String, Long> updateCostsAndDurationMap = getNextBuildingLvlInfos(villageId, buildingTypeId);
+
+        //ToDo: noch entsprechende Infos, welche wichtig sind, rausfilten. Ggf. nextBuildingLevel in buildingLvl Repository auslagern
+        long nextBuildingLevel = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId).getBuildingLevel() + 1;
+        BuildingLevel buildingLvlbyBuildingLvlAndBuildingType = buildingLevelService
+                .getBuildingLvlbyBuildingLvlAndBuildingType(nextBuildingLevel, new com.thegame.business.model.BuildingType(buildingTypeId));
 
         // ToDo: Auslagern der Methoden in RessService
         // ToDo: Auslagern in größerer Funktion (isEnoughRessources in RessService -> Vorsicht: viele der Ress Größen werden benötigt für Else-Zweig)
