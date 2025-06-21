@@ -49,13 +49,20 @@ public class BuildingService {
     // rollbackFor standard behaviour: only for RunTimeExceptions and Errors
     @Transactional(rollbackFor = { NullPointerException.class, IllegalStateException.class, IOException.class, URISyntaxException.class })
     public ResponseEntity<List<ResponseDto>> buildingUpgrade(Long villageId, Long buildingTypeId) throws IOException, URISyntaxException {
+        //ToDo: Unit Tests für Methode schreiben
         List<ResourceRepository.ResourceByVillageResponse> resourcesByVillageId = resourceService.getResourcesByVillageId(villageId);
 
-        resourceService.aggregateAndUpdateResources(resourcesByVillageId, villageId);
-        resourcesByVillageId = resourceService.getResourcesByVillageId(villageId);
+       // resourceService.aggregateAndUpdateResources(resourcesByVillageId, villageId);
+       // resourcesByVillageId = resourceService.getResourcesByVillageId(villageId);
+        //großes ToDo: kein Aggregieren von RessZeilen sondern Update von einer RessZeile
 
+        //ToDo: Nutzen der buildinglevel Tabellen
+        //ToDo: Auslagern in separaten BuildingLevelService
+        //ToDo: Schreiben von Unit Tests
         HashMap<String, Long> updateCostsAndDurationMap = getNextBuildingLvlInfos(villageId, buildingTypeId);
 
+        // ToDo: Auslagern der Methoden in RessService
+        // ToDo: Auslagern in größerer Funktion (isEnoughRessources in RessService -> Vorsicht: viele der Ress Größen werden benötigt für Else-Zweig)
         ResourceRepository.ResourceByVillageResponse stoneByVillageId = retrieveResByVillageId(resourcesByVillageId, ResourceType.STONE);
         Float stoneAfterLvlIncrease = retrieveResourcesAfterLvlIncrease(stoneByVillageId, updateCostsAndDurationMap.get("stoneUpdateCosts"));
 
