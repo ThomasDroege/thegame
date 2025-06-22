@@ -4,6 +4,7 @@ import com.thegame.business.dto.ResourceDto;
 import com.thegame.business.dto.ResourceUpdateRequestDTO;
 import com.thegame.business.enums.ResourceType;
 import com.thegame.business.model.Resource;
+import com.thegame.business.repository.ResourceByVillageResponse;
 import com.thegame.business.repository.ResourceRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +26,11 @@ public class ResourceService {
         return resourceRepository.findAll();
     }
 
-    public List<ResourceRepository.ResourceByVillageResponse> getResourcesByVillageId(Long villageId) {
+    public List<ResourceByVillageResponse> getResourcesByVillageId(Long villageId) {
         return resourceRepository.getResourcesByVillageId(villageId);
     }
 
-    public List<ResourceRepository.ResourceByVillageResponse> getAggregatedResourcesByVillageId(Long villageId) {
+    public List<ResourceByVillageResponse> getAggregatedResourcesByVillageId(Long villageId) {
         return resourceRepository.getAggregatedResourcesByVillageId(villageId);
     }
 
@@ -53,7 +54,7 @@ public class ResourceService {
         resourceRepository.insertResourceByVillageId(villageId, resourceTypeId, resourceAtUpdateTime, resourceIncome);
     }
 
-    public void aggregateAndUpdateResources(List<ResourceRepository.ResourceByVillageResponse> resourcesByVillageId, Long villageId) {
+    public void aggregateAndUpdateResources(List<ResourceByVillageResponse> resourcesByVillageId, Long villageId) {
         List<ResourceDto> updateList = new ArrayList<>();
 
         this.aggregateResource(resourcesByVillageId, villageId, ResourceType.FOOD.getValue(), updateList);
@@ -66,10 +67,10 @@ public class ResourceService {
         }
     }
 
-    private void aggregateResource(List<ResourceRepository.ResourceByVillageResponse> resourcesByVillageId, Long villageId, Long resourceTypeId, List<ResourceDto> updateList) {
-        List<ResourceRepository.ResourceByVillageResponse> resourceObjectByResourceTypeId = new ArrayList<>();
+    private void aggregateResource(List<ResourceByVillageResponse> resourcesByVillageId, Long villageId, Long resourceTypeId, List<ResourceDto> updateList) {
+        List<ResourceByVillageResponse> resourceObjectByResourceTypeId = new ArrayList<>();
 
-        for (ResourceRepository.ResourceByVillageResponse res : resourcesByVillageId) {
+        for (ResourceByVillageResponse res : resourcesByVillageId) {
             if (res.getResourceTypeId().equals(resourceTypeId)) {
                 resourceObjectByResourceTypeId.add(res);
             }
@@ -89,7 +90,7 @@ public class ResourceService {
         }
 
         Long maxIncomeByResourceTypeId = resourceObjectByResourceTypeId.stream()
-                .map(ResourceRepository.ResourceByVillageResponse::getResourceIncome)
+                .map(ResourceByVillageResponse::getResourceIncome)
                 .max(Long::compareTo)
                 .orElse(0L);
 

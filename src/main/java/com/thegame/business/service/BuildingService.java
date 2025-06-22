@@ -7,7 +7,7 @@ import com.thegame.business.enums.BuildingType;
 import com.thegame.business.enums.ResourceType;
 import com.thegame.business.model.BuildingLevel;
 import com.thegame.business.repository.BuildingRepository;
-import com.thegame.business.repository.ResourceRepository;
+import com.thegame.business.repository.ResourceByVillageResponse;
 import com.thegame.business.utils.FileReader;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -52,10 +52,7 @@ public class BuildingService {
     @Transactional(rollbackFor = { NullPointerException.class, IllegalStateException.class, IOException.class, URISyntaxException.class })
     public ResponseEntity<List<ResponseDto>> buildingUpgrade(Long villageId, Long buildingTypeId) throws IOException, URISyntaxException {
         //ToDo: Unit Tests für Methode schreiben
-        List<ResourceRepository.ResourceByVillageResponse> resourcesByVillageId = resourceService.getResourcesByVillageId(villageId);
-
-       // resourceService.aggregateAndUpdateResources(resourcesByVillageId, villageId);
-       // resourcesByVillageId = resourceService.getResourcesByVillageId(villageId);
+        List<ResourceByVillageResponse> resourcesByVillageId = resourceService.getResourcesByVillageId(villageId);
         //großes ToDo: kein Aggregieren von RessZeilen sondern Update von einer RessZeile
         // ToDo: Integrationstests
 
@@ -65,10 +62,10 @@ public class BuildingService {
 
         // ToDo: Auslagern der Methoden in RessService
         // ToDo: Auslagern in größerer Funktion (isEnoughRessources in RessService -> Vorsicht: viele der Ress Größen werden benötigt für Else-Zweig)
-        ResourceRepository.ResourceByVillageResponse stoneByVillageId = retrieveResByVillageId(resourcesByVillageId, ResourceType.STONE);
+        ResourceByVillageResponse stoneByVillageId = retrieveResByVillageId(resourcesByVillageId, ResourceType.STONE);
         Float stoneAfterLvlIncrease = retrieveResourcesAfterLvlIncrease(stoneByVillageId, buildingLevel.getUpdateCostStone());
 
-        ResourceRepository.ResourceByVillageResponse woodByVillageId = retrieveResByVillageId(resourcesByVillageId, ResourceType.WOOD);
+        ResourceByVillageResponse woodByVillageId = retrieveResByVillageId(resourcesByVillageId, ResourceType.WOOD);
         Float woodAfterLvlIncrease = retrieveResourcesAfterLvlIncrease(woodByVillageId, buildingLevel.getUpdateCostWood());
 
         List<ResponseDto> missingResources = checkForMissingResources(stoneAfterLvlIncrease, woodAfterLvlIncrease);
@@ -106,13 +103,13 @@ public class BuildingService {
         return levelDetails.getJSONObject(levelDetail);
     }
 
-    private ResourceRepository.ResourceByVillageResponse retrieveResByVillageId (List<ResourceRepository.ResourceByVillageResponse> resourcesByVillageId, ResourceType resourceType) {
+    private ResourceByVillageResponse retrieveResByVillageId (List<ResourceByVillageResponse> resourcesByVillageId, ResourceType resourceType) {
         return resourcesByVillageId.stream()
                 .filter(res -> res.getResourceTypeId().equals(resourceType.getValue()) && res.getResourceAtUpdateTime() != null)
                 .findFirst().orElseThrow(() -> new IllegalStateException(String.format("%s resource not found", resourceType.getFullName())));
     }
 
-    private Float retrieveResourcesAfterLvlIncrease(ResourceRepository.ResourceByVillageResponse resObj, Long resRequired) {
+    private Float retrieveResourcesAfterLvlIncrease(ResourceByVillageResponse resObj, Long resRequired) {
         if (resObj == null || resRequired == null) {
             logger.debug("Retrieving of Resources after Lvl Increase does not work with resRequired: {} and resObj: {}", resRequired, resObj);
             throw new IllegalArgumentException("Retrieving of Resources after Lvl Increase does not work! Rollback of transaction done");

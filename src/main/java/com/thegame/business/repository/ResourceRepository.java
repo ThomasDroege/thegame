@@ -49,14 +49,6 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
             @Param("resourceIncome") Long resourceIncome
     );
 
-    interface ResourceByVillageResponse {
-        Long getResourceTypeId();
-        String getResourceName();
-        Long getResourceAtUpdateTime();
-        Long getResourceIncome();
-        LocalDateTime getUpdateTime();
-    }
-
     String STMT_RESOURCES_BY_VILLAGE_ID_OLD = """
         SELECT  r.resource_type_id as resourceTypeId,
                 r.resource_at_update_time as resourceAtUpdateTime,
