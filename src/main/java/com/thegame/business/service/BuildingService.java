@@ -60,7 +60,6 @@ public class BuildingService {
         //großes ToDo: kein Aggregieren von RessZeilen sondern Update von einer RessZeile
         // ToDo: Integrationstests
 
-
         //ToDo: Nutzen der buildinglevel Tabellen
         //ToDo: Auslagern in separaten BuildingLevelService
         //ToDo: Schreiben von Unit Tests
