@@ -16,6 +16,13 @@ public class BuildingType {
     @Column(name = "building_name")
     private String buildingName;
 
+    public BuildingType(Long buildingTypeId) {
+        this.buildingTypeId = buildingTypeId;
+    }
+
+    public BuildingType() {
+    }
+
     public Long getBuildingTypeId() {
         return buildingTypeId;
     }

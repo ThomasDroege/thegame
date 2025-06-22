@@ -25,8 +25,17 @@ public class Resource {
     @Column(name = "resource_income")
     private Long resourceIncome;
 
+    @Column(name = "resource_income_modifier")
+    private float resourceIncomeModifier;
+
     @Column(name = "update_time")
     private String updateTime;
+
+    @Column(name = "resource_income_update_time")
+    private String resourceIncomeUpdateTime;
+
+    @Column(name = "resource_income_modifier_update_time")
+    private String resourceIncomeModifierUpdateTime;
 
     public Long getResourceId() {
         return resourceId;
@@ -68,11 +77,35 @@ public class Resource {
         this.resourceIncome = resourceIncome;
     }
 
+    public float getResourceIncomeModifier() {
+        return resourceIncomeModifier;
+    }
+
+    public void setResourceIncomeModifier(float resourceIncomeModifier) {
+        this.resourceIncomeModifier = resourceIncomeModifier;
+    }
+
     public String getUpdateTime() {
         return updateTime;
     }
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getResourceIncomeUpdateTime() {
+        return resourceIncomeUpdateTime;
+    }
+
+    public void setResourceIncomeUpdateTime(String resourceIncomeUpdateTime) {
+        this.resourceIncomeUpdateTime = resourceIncomeUpdateTime;
+    }
+
+    public String getResourceIncomeModifierUpdateTime() {
+        return resourceIncomeModifierUpdateTime;
+    }
+
+    public void setResourceIncomeModifierUpdateTime(String resourceIncomeModifierUpdateTime) {
+        this.resourceIncomeModifierUpdateTime = resourceIncomeModifierUpdateTime;
     }
 }
