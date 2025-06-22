@@ -45,7 +45,6 @@ public class BuildingService {
 
     /**
      * Startet die Erhöhung des Gebäude-Levels.
-     *
      * Diese Methode zieht die Resourcen für das Gebäude Update ab und setzt das Gebäude Level hoch.
      * Die UpdateTime wird entsprechend der Bauzeit in die Zukunft gesetzt.
      */
@@ -60,25 +59,17 @@ public class BuildingService {
         //großes ToDo: kein Aggregieren von RessZeilen sondern Update von einer RessZeile
         // ToDo: Integrationstests
 
-
-
-        //ToDo: Nutzen der buildinglevel Tabellen
-        //ToDo: Auslagern in separaten BuildingLevelService
-        //ToDo: Schreiben von Unit Tests
-        HashMap<String, Long> updateCostsAndDurationMap = getNextBuildingLvlInfos(villageId, buildingTypeId);
-
-        //ToDo: noch entsprechende Infos, welche wichtig sind, rausfilten. Ggf. nextBuildingLevel in buildingLvl Repository auslagern
         long nextBuildingLevel = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId).getBuildingLevel() + 1;
-        BuildingLevel buildingLvlbyBuildingLvlAndBuildingType = buildingLevelService
+        BuildingLevel buildingLevel = buildingLevelService
                 .getBuildingLvlbyBuildingLvlAndBuildingType(nextBuildingLevel, new com.thegame.business.model.BuildingType(buildingTypeId));
 
         // ToDo: Auslagern der Methoden in RessService
         // ToDo: Auslagern in größerer Funktion (isEnoughRessources in RessService -> Vorsicht: viele der Ress Größen werden benötigt für Else-Zweig)
         ResourceRepository.ResourceByVillageResponse stoneByVillageId = retrieveResByVillageId(resourcesByVillageId, ResourceType.STONE);
-        Float stoneAfterLvlIncrease = retrieveResourcesAfterLvlIncrease(stoneByVillageId, updateCostsAndDurationMap.get("stoneUpdateCosts"));
+        Float stoneAfterLvlIncrease = retrieveResourcesAfterLvlIncrease(stoneByVillageId, buildingLevel.getUpdateCostStone());
 
         ResourceRepository.ResourceByVillageResponse woodByVillageId = retrieveResByVillageId(resourcesByVillageId, ResourceType.WOOD);
-        Float woodAfterLvlIncrease = retrieveResourcesAfterLvlIncrease(woodByVillageId, updateCostsAndDurationMap.get("woodUpdateCosts"));
+        Float woodAfterLvlIncrease = retrieveResourcesAfterLvlIncrease(woodByVillageId, buildingLevel.getUpdateCostWood());
 
         List<ResponseDto> missingResources = checkForMissingResources(stoneAfterLvlIncrease, woodAfterLvlIncrease);
         if (!missingResources.isEmpty()) {
@@ -86,24 +77,13 @@ public class BuildingService {
         } else {
             decreaseResByUpdateCosts(villageId, stoneAfterLvlIncrease.longValue(), stoneByVillageId.getResourceIncome(), stoneByVillageId.getUpdateTime(),
                     woodAfterLvlIncrease.longValue(), woodByVillageId.getResourceIncome(), woodByVillageId.getUpdateTime());
-            addNewResRowIfBuildingChangesResIncome(buildingTypeId, updateCostsAndDurationMap.get("nextBuildingLevel"), villageId);
-            updateBuildingLvl(villageId, buildingTypeId, updateCostsAndDurationMap.get("updateDuration"));
+            addNewResRowIfBuildingChangesResIncome(buildingTypeId, buildingLevel.getBuildingLevel(), villageId);
+            updateBuildingLvl(villageId, buildingTypeId, buildingLevel.getBuildingTime());
 
             // Line for Test purpose of transaction rollback
             //  stoneAfterLvlIncrease = retrieveResourcesAfterLvlIncrease(stoneByVillageId, updateCostsAndDurationMap.get("stoeUpdateCosts"));
             return ResponseEntity.ok(Collections.emptyList());
         }
-    }
-
-    public HashMap<String, Long> getNextBuildingLvlInfos(Long villageId, Long buildingTypeId) throws IOException, URISyntaxException {
-        long nextBuildingLevel = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId).getBuildingLevel() + 1;
-        JSONObject updateCosts = getBuildingUpdateDetails(buildingTypeId, nextBuildingLevel, "updatecosts");
-        HashMap<String, Long> updateCostsAndDurationMap = new HashMap<>();
-        updateCostsAndDurationMap.put("nextBuildingLevel", nextBuildingLevel);
-        updateCostsAndDurationMap.put("stoneUpdateCosts", updateCosts.getLong(ResourceType.STONE.getFullName()));
-        updateCostsAndDurationMap.put("woodUpdateCosts", updateCosts.getLong(ResourceType.WOOD.getFullName()));
-        updateCostsAndDurationMap.put("updateDuration", getBuildingUpdateDetails(buildingTypeId, nextBuildingLevel, "buildingtime").optLong("seconds"));
-        return updateCostsAndDurationMap;
     }
 
     private List<ResponseDto> checkForMissingResources(Float stoneAfterLvlIncrease, Float woodAfterLvlIncrease) {
