@@ -7,5 +7,8 @@ public interface ResourceByVillageResponse {
     String getResourceName();
     Long getResourceAtUpdateTime();
     Long getResourceIncome();
+    float getResourceIncomeModifier();
     LocalDateTime getUpdateTime();
+    LocalDateTime getResourceIncomeUpdateTime();
+    LocalDateTime getResourceIncomeModifierUpdateTime();
 }

@@ -1,9 +1,6 @@
 package com.thegame.business.service;
 
-import com.thegame.business.dto.ResourceDto;
-import com.thegame.business.dto.ResourceUpdateRequestDTO;
 import com.thegame.business.dto.ResponseDto;
-import com.thegame.business.enums.BuildingType;
 import com.thegame.business.enums.ResourceType;
 import com.thegame.business.model.BuildingLevel;
 import com.thegame.business.repository.BuildingRepository;
@@ -51,34 +48,16 @@ public class BuildingService {
     // rollbackFor standard behaviour: only for RunTimeExceptions and Errors
     @Transactional(rollbackFor = { NullPointerException.class, IllegalStateException.class, IOException.class, URISyntaxException.class })
     public ResponseEntity<List<ResponseDto>> buildingUpgrade(Long villageId, Long buildingTypeId) throws IOException, URISyntaxException {
-        //ToDo: Unit Tests für Methode schreiben
-        List<ResourceByVillageResponse> resourcesByVillageId = resourceService.getResourcesByVillageId(villageId);
-        //großes ToDo: kein Aggregieren von RessZeilen sondern Update von einer RessZeile
-        // ToDo: Integrationstests
-
         long nextBuildingLevel = buildingRepository.getBuildingByVillageIdAndBuildingId(villageId, buildingTypeId).getBuildingLevel() + 1;
         BuildingLevel buildingLevel = buildingLevelService
                 .getBuildingLvlbyBuildingLvlAndBuildingType(nextBuildingLevel, new com.thegame.business.model.BuildingType(buildingTypeId));
 
-        // ToDo: Auslagern der Methoden in RessService
-        // ToDo: Auslagern in größerer Funktion (isEnoughRessources in RessService -> Vorsicht: viele der Ress Größen werden benötigt für Else-Zweig)
-        ResourceByVillageResponse stoneByVillageId = retrieveResByVillageId(resourcesByVillageId, ResourceType.STONE);
-        Float stoneAfterLvlIncrease = retrieveResourcesAfterLvlIncrease(stoneByVillageId, buildingLevel.getUpdateCostStone());
+        List<ResponseDto> missingResources = resourceService.decreaseRessBeforeBuildAction(villageId, buildingLevel);
 
-        ResourceByVillageResponse woodByVillageId = retrieveResByVillageId(resourcesByVillageId, ResourceType.WOOD);
-        Float woodAfterLvlIncrease = retrieveResourcesAfterLvlIncrease(woodByVillageId, buildingLevel.getUpdateCostWood());
-
-        List<ResponseDto> missingResources = checkForMissingResources(stoneAfterLvlIncrease, woodAfterLvlIncrease);
         if (!missingResources.isEmpty()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(missingResources);
         } else {
-            decreaseResByUpdateCosts(villageId, stoneAfterLvlIncrease.longValue(), stoneByVillageId.getResourceIncome(), stoneByVillageId.getUpdateTime(),
-                    woodAfterLvlIncrease.longValue(), woodByVillageId.getResourceIncome(), woodByVillageId.getUpdateTime());
-            addNewResRowIfBuildingChangesResIncome(buildingTypeId, buildingLevel.getBuildingLevel(), villageId);
             updateBuildingLvl(villageId, buildingTypeId, buildingLevel.getBuildingTime());
-
-            // Line for Test purpose of transaction rollback
-            //  stoneAfterLvlIncrease = retrieveResourcesAfterLvlIncrease(stoneByVillageId, updateCostsAndDurationMap.get("stoeUpdateCosts"));
             return ResponseEntity.ok(Collections.emptyList());
         }
     }
@@ -120,24 +99,6 @@ public class BuildingService {
         float resIncomePerSec = resObj.getResourceIncome().floatValue() / 3600;
         float resNow = resObj.getResourceAtUpdateTime() + resIncomePerSec * timeDiffInSecs;
         return resNow - resRequired.floatValue();
-    }
-
-    private void decreaseResByUpdateCosts(Long villageId, Long stoneAfterLvlIncrease, Long stoneIncome, LocalDateTime stoneUpdateTime,
-                                          Long woodAfterLvlIncrease, Long woodIncome, LocalDateTime woodResUpdateTime) {
-        ResourceDto stoneRes = new ResourceDto(ResourceType.STONE.getValue(), stoneAfterLvlIncrease, stoneIncome, stoneUpdateTime);
-        ResourceDto woodRes = new ResourceDto(ResourceType.WOOD.getValue(), woodAfterLvlIncrease, woodIncome, woodResUpdateTime);
-        ResourceUpdateRequestDTO resourceUpdateRequestDTO = new ResourceUpdateRequestDTO(villageId, List.of(stoneRes, woodRes));
-        resourceService.updateResourcesByVillageId(resourceUpdateRequestDTO);
-    }
-
-    private void addNewResRowIfBuildingChangesResIncome (Long buildingTypeId, Long nextBuildingLevel, Long villageId) throws IOException, URISyntaxException {
-        List<Long> resourceIncomeDependentBuildingTypeIds = List.of(BuildingType.MILL.getValue(), BuildingType.LUMBERJACK.getValue(), BuildingType.MASON.getValue(), BuildingType.IRON_MINE.getValue());
-        if (resourceIncomeDependentBuildingTypeIds.contains(buildingTypeId)) {
-            JSONObject resourceIncome = getBuildingUpdateDetails(buildingTypeId, nextBuildingLevel, "income");
-            Long resourceTypeId = resourceIncome.optLong("resourceTypeId");
-            Long resIncome = resourceIncome.optLong("value");
-            resourceService.insertResource(villageId, resourceTypeId, null, resIncome);
-        }
     }
 
     private void updateBuildingLvl(Long villageId, Long buildingTypeId, Long updateDuration) {

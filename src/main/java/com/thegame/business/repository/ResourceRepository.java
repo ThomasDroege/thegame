@@ -53,7 +53,10 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
         SELECT  r.resource_type_id as resourceTypeId,
                 r.resource_at_update_time as resourceAtUpdateTime,
                 r.resource_income as resourceIncome,
+                r.resource_income_modifier as resourceIncomeModifier,
                 r.update_time as updateTime,
+                r.resource_income_update_time as resourceIncomeUpdateTime,
+                r.resource_income_modifier_update_time as resourceIncomeModifierUpdateTime,
                 rt.resource_name as resourceName
         FROM data.resources r
         JOIN data.resource_types rt ON rt.resource_type_id = r.resource_type_id 
