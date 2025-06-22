@@ -3,7 +3,7 @@ package com.thegame.business.service;
 import com.thegame.business.model.BuildingLevel;
 import com.thegame.business.model.BuildingType;
 import com.thegame.business.repository.BuildingLevelRepository;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,11 +15,10 @@ public class BuildingLevelService {
         this.buildingLevelRepository = buildingLevelRepository;
     }
 
-    //ToDo: Error Handling und Testen
-    public BuildingLevel getBuildingLvlbyBuildingLvlAndBuildingType(Long buildingLevel, BuildingType buildingType) {
+    public BuildingLevel getBuildingLvlbyBuildingLvlAndBuildingType(Long buildingLevelNumber, BuildingType buildingType) {
         return buildingLevelRepository
-                .findBuildingLevelByBuildingLevelAndBuildingType(buildingLevel, buildingType);
+                .findBuildingLevelByBuildingLevelAndBuildingType(buildingLevelNumber, buildingType)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Es konnte kein BuildingLevel für buildingLevelNumber %s und BuildingType %s gefunden werden.", buildingLevelNumber, buildingType)));
     }
-
-
 }
